@@ -1,3 +1,4 @@
+/* 기본 설정: 사용자 스타일 유지 */
 * {
     margin: 0;
     padding: 0;
@@ -8,40 +9,252 @@ html, body {
     -webkit-font-smoothing: antialiased;
 }
 body {
-    font-family: sans-serif;
-    background-color: #f4f7f6;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     margin: 0;
-    padding: 20px;
-    display: flex;
-    justify-content: center;
-}
-
-.container {
-    background: white;
-    padding: 30px;
-    border-radius: 12px;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-    width: 100%;
-    max-width: 700px;
-}
-
-h1, h2 {
+    padding: 0;
+    background-color: #f4f7f9;
     color: #333;
+    height: 100vh;
+    overflow: hidden;
+}
+
+.chat-layout {
+    display: flex;
+    height: 100%;
+}
+
+.sidebar {
+    width: 280px;
+    background-color: #ffffff;
+    box-shadow: 2px 0 5px rgba(0, 0, 0, 0.05);
+    display: flex;
+    flex-direction: column;
+    padding: 20px;
+    border-right: 1px solid #ddd;
+    height: 100%;
+    transition: width 0.3s ease, padding 0.3s ease;
+}
+
+.sidebar-header {
+    flex-shrink: 0;
+}
+.sidebar.collapsed {
+    width: 60px; 
+    padding: 0; 
+    align-items: center;
+}
+
+.sidebar.collapsed .sidebar-header,
+.sidebar.collapsed .recent-conversations-area,
+.sidebar.collapsed .settings-area {
+    opacity: 0; 
+    visibility: hidden; 
+    transition: opacity 0.3s, visibility 0.3s;
+}
+
+.sidebar.collapsed .menu-button {
+    margin: 15px auto 0 auto; 
+}
+
+.recent-conversations-area {
+    flex-grow: 1;
+    overflow-y: auto;
+    margin-bottom: 15px;
+}
+
+/* 설정 영역 (하단 고정) */
+.settings-area {
+    flex-shrink: 0;
+    padding-top: 10px;
+    border-top: 1px solid #eee;
+}
+
+.sidebar h2 {
+    font-size: 1.4em;
+    color: #333;
+    margin: 0;
+}
+
+.menu-button {
+    padding: 10px;
+    margin-bottom: 12px;
+    cursor: pointer;
+    color: #333;
+    flex-shrink: 0;
+}
+.menu-title {
+    color: gray;
+    padding: 10px;
+}
+.menu-icon {
+    margin-right: 10px;
+}
+
+#newChatButton {
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+}
+
+.conversation-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    overflow-y: auto;
+}
+
+.conversation-item {
+    display: flex;
+    flex-direction: column;
+    padding: 10px;
+    margin-bottom: 5px;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background-color 0.2s;
+}
+
+.conversation-item:hover {
+    background-color: #f1f3f4;
+}
+
+.conversation-item.active {
+    background-color: #e6f2ff;
+    border-left: 4px solid #007bff;
+    padding-left: 8px;
+    font-weight: bold;
+}
+
+.conversation-item .title {
+    font-size: 0.95em;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.conversation-item .date {
+    font-size: 0.75em;
+    color: #777;
+    margin-top: 3px;
+}
+
+.main-area {
+    width: 100%;
+    display: flex;
+    box-sizing: border-box;
+    position: relative;
+    background: white;
+    justify-content: center;
+    
+}
+.main-chat-area {
+    flex-grow: 1;
+    max-width: 760px;
+    display: flex;
+    flex-direction: column;
+    margin: 0 auto;
+}
+
+.main-chat-area h1 {
+    font-size: 1.8em;
+    color: #333;
+    margin-top: 0;
+    margin-bottom: 20px;
+    text-align: center;
+}
+
+.chat-window {
+    flex-grow: 1;
+    overflow-y: auto;
+    padding-right: 15px;
+    padding-bottom: 10px;
+    margin-bottom: 10px;
+}
+
+/* 메세지 레이아웃 */
+.message {
+    max-width: 80%;
+    margin: 10px 0;
+    padding: 15px; 
+    border-radius: 12px; 
+    line-height: 1.6;
+    word-wrap: break-word;
+    width: fit-content;
+    box-sizing: border-box;
+}
+.message ul, 
+.message ol {
+    margin: 0; 
+    padding-left: 20px;
+}
+.message li {
+    margin-bottom: 5px;
+}
+.message h1, .message h2, .message h3 {
+    margin-bottom: 10px;
+    margin-top: 10px;
+}
+.message hr {
+    margin-bottom: 15px;
+    margin-top: 15px;
+}
+
+.user-message {
+    background-color: #e9e9e9b4;
+    margin-left: auto;
+    border-bottom-right-radius: 5px;
+}
+
+.system-message {
+    background-color: #f1f9ffcc;
+    color: #333;
+    margin-right: auto;
+    border-bottom-left-radius: 5px;
+}
+.system-message.streaming {
+    opacity: 0.7;
+    font-style: italic;
+}
+
+.system-message.streaming .typing-indicator {
+    animation: blink-caret 1s steps(1) infinite;
+}
+
+@keyframes blink-caret {
+    from, to { color: transparent; }
+    50% { color: #555; }
 }
 
 .input-area {
     display: flex;
-    gap: 10px;
+    align-items: flex-end;
     margin-bottom: 20px;
+    gap: 10px;
+    padding: 10px 0;
 }
 
 #promptInput {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     flex-grow: 1;
     padding: 15px;
     border: 1px solid #ddd;
-    border-radius: 8px;
-    resize: vertical;
+    border-radius: 30px;
+    resize: none;
     font-size: 16px;
+    min-height: 50px;
+    max-height: 200px;
+    box-shadow: 1px 1px 2px #666;
+    -ms-overflow-style: none;
+}
+#promptInput:focus {
+    outline: none;
+    border: 1px solid #5c5c5c;
+    border-color: #ddd;
+}
+#promptInput:focus::-webkit-scrollbar {
+  display: none;
+}
+::-webkit-scrollbar {
+  display: none;
 }
 
 #sendButton {
@@ -53,37 +266,40 @@ h1, h2 {
     cursor: pointer;
     font-size: 16px;
     transition: background-color 0.3s;
+    height: 50px; 
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
-#sendButton:hover {
+#sendButton:hover:not(:disabled) {
     background-color: #0056b3;
 }
 
-.result-area {
-    margin-top: 20px;
+#sendButton:disabled {
+    background-color: #cccccc;
+    cursor: not-allowed;
 }
 
-#resultOutput {
-    background-color: #e9ecef;
-    padding: 15px;
-    border-radius: 8px;
-    white-space: pre-wrap;
-    min-height: 100px;
-    border: 1px solid #ddd;
-    color: #333;
-}
 
-/* 로딩 애니메이션 */
 .hidden {
     display: none !important;
 }
 
 #loadingIndicator {
+    position: absolute;
+    bottom: 120px;
+    left: 50%;
+    transform: translateX(-50%);
+    
     display: flex;
     align-items: center;
     gap: 10px;
     color: #007bff;
-    margin-bottom: 10px;
+    padding: 8px 15px;
+    background: white;
+    border-radius: 20px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
 }
 
 .loader {

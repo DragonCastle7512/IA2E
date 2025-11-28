@@ -3,27 +3,73 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>AI 프롬프트 인터페이스</title>
+    <title>AI 챗 인터페이스</title>
     <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css" integrity="sha512-2SwdPD6INVrV/lHTZbO2nodKhrnDdJK9/kg2XD1r9uGqPo1cUbujc+IYdlYdEErWNu69gVcYgdxlmVmzTWnetw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
 </head>
 <body>
-    <div class="container">
-        <h1>💬 AI 프롬프트 테스트</h1>
-        
-        <div class="input-area">
-            <textarea id="promptInput" rows="4" placeholder="AI에게 보낼 질문을 입력하세요..."></textarea>
-            <button id="sendButton">요청 보내기</button>
+    <div class="chat-layout">
+        <div class="sidebar">
+            <div class="menu-button">
+                <i class="fa-solid fa-bars"></i>
+            </div>
+            <div class="sidebar-header">
+                <ul class="conversation-list">
+                    <li class="conversation-item" id=newChatButton data-id="1">
+                        <span class="title"><i class="menu-icon fa-regular fa-pen-to-square"></i>새 채팅</span>
+                    </li>
+                </ul>
+            </div>
+            <div class="recent-conversations-area">
+                <p class="menu-title">최근</p>
+                <ul id="conversationList" class="conversation-list">
+                    <li class="conversation-item active" data-id="1">
+                        <span class="title">첫 번째 대화</span>
+                        <span class="date">2025.11.28</span>
+                    </li>
+                    <li class="conversation-item" data-id="2">
+                        <span class="title">최근 질문들</span>
+                        <span class="date">2025.11.27</span>
+                    </li>
+                </ul>
+            </div>
+            <div class="settings-area">
+                <p class="menu-title">설정</p>
+                <ul class="conversation-list">
+                    <li class="conversation-item">
+                        <span class="title"><i class="menu-icon fa-solid fa-cloud-sun"></i>테마 및 색상</span>
+                    </li>
+                    <li class="conversation-item">
+                        <span class="title"><i class="menu-icon fa-solid fa-user-check"></i>맞춤형 AI</span>
+                    </li>
+                </ul>
+            </div>
         </div>
 
-        <div class="result-area">
-            <h2>결과</h2>
-            <div id="loadingIndicator" class="hidden">
-                <div class="loader"></div>
-                처리 중...
+        <div class="main-area">
+            <div class="main-chat-area">
+                <h1>💬 AI 챗봇</h1>
+                <div id="resultOutput" class="chat-window">
+                    <div class="message system-message">
+                        안녕하세요! 무엇을 도와드릴까요?
+                    </div>
+                    <div class="message user-message">
+                        안녕하세요! 무엇을 도와드릴까요?
+                    </div>
+                </div>
+
+                <div class="input-area">
+                    <textarea id="promptInput" rows="1" placeholder="메시지를 입력하세요..."></textarea>
+                </div>
+
+                <div id="loadingIndicator" class="hidden">
+                    <div class="loader"></div>
+                    AI 응답 처리 중...
+                </div>
             </div>
-            <pre id="resultOutput">여기에 AI의 응답이 표시됩니다.</pre>
         </div>
     </div>
+    
     <script src="https://cdnjs.cloudflare.com/ajax/libs/dompurify/3.0.6/purify.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/marked/12.0.2/marked.min.js"></script>
     <script src="script.js"></script>
