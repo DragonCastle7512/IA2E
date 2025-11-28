@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI 프롬프트 인터페이스</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <h1>💬 AI 프롬프트 테스트</h1>
+        
+        <div class="input-area">
+            <textarea id="promptInput" rows="4" placeholder="AI에게 보낼 질문을 입력하세요..."></textarea>
+            <button id="sendButton">요청 보내기</button>
+        </div>
+
+        <div class="result-area">
+            <h2>결과</h2>
+            <div id="loadingIndicator" class="hidden">
+                <div class="loader"></div>
+                처리 중...
+            </div>
+            <pre id="resultOutput">여기에 AI의 응답이 표시됩니다.</pre>
+        </div>
+    </div>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/dompurify/3.0.6/purify.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/marked/12.0.2/marked.min.js"></script>
+    <script src="script.js"></script>
+</body>
+</html>
