@@ -4,6 +4,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const loadingIndicator = document.getElementById('loadingIndicator');
 
     const API_ENDPOINT = 'http://localhost:3000/api/fetch';
+    let streaming = false;
 
     /* 프롬포트창 shift+Enter 시 높이 자동 조절 */
     promptInput.addEventListener('input', () => {
@@ -13,7 +14,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     /* 버튼 클릭 이벤트 핸들러 */
     promptInput.addEventListener('keydown', (e) => {
-        if (e.key === 'Enter' && !e.shiftKey) {
+        if (e.key === 'Enter' && !e.shiftKey && !streaming) {
             e.preventDefault();
             handleSend();
         }
@@ -60,6 +61,7 @@ document.addEventListener('DOMContentLoaded', () => {
         }
         // 사용자 질의 추가
         appendMessage(prompt);
+        streaming = true;
         promptInput.value = '';
         promptInput.style.height = 'auto';
         loadingIndicator.classList.remove('hidden');
@@ -95,14 +97,21 @@ document.addEventListener('DOMContentLoaded', () => {
                 const chunk = decoder.decode(value, { stream: true });
                 fullContent += chunk;   
                 aiMessageDiv.innerHTML = DOMPurify.sanitize(marked.parse(fullContent));
+                // prism.js가 인식할 태그만 부분적으로 수정
+                const codeElements = aiMessageDiv.querySelectorAll('code[class*="language-"]');
+                codeElements.forEach(codeElement => {
+                    Prism.highlightElement(codeElement, false);
+                });
                 resultOutput.scrollTop = resultOutput.scrollHeight;
             }
             aiMessageDiv.classList.remove('streaming');
+            //Prism.highlightAll();
         } catch (error) {
             resultOutput.textContent = `오류 발생: ${error.message}. 서버 로그를 확인해주세요.`;
             resultOutput.style.color = 'red';
         } finally {
             loadingIndicator.classList.add('hidden');
+            streaming = false;
         }
     }
 });
