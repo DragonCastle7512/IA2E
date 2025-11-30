@@ -10,7 +10,7 @@ module.exports = (sequelize, DataTypes) => {
             allowNull: false
         },
         title: {
-            type: DataTypes.STRING(255),
+            type: DataTypes.TEXT,
             allowNull: false
         },
         date: {

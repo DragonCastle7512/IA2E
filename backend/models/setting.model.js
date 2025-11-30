@@ -11,19 +11,19 @@ module.exports = (sequelize, DataTypes) => {
             unique: true 
         },
         theme: {
-            type: DataTypes.STRING(50),
+            type: DataTypes.STRING(20),
             defaultValue: 'light'
         },
         chat_color: {
-            type: DataTypes.STRING(50),
+            type: DataTypes.STRING(20),
             defaultValue: '#e9e9e9b4'
         },
         personal_ai: {
-            type: DataTypes.JSONB
+            type: DataTypes.TEXT
         }
     }, {
         tableName: 'SETTING',
-        timestamps: true,
+        timestamps: false,
         underscored: true
     });
 

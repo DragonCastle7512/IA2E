@@ -14,18 +14,22 @@ module.exports = (sequelize, DataTypes) => {
             unique: true,
             allowNull: false
         },
+        create_at: {
+            type: DataTypes.DATE,
+            allowNull: false
+        },
         expires_at: {
             type: DataTypes.DATE,
             allowNull: true
         },
         status: {
-            type: DataTypes.STRING(50),
+            type: DataTypes.STRING(10),
             defaultValue: 'active',
             allowNull: false
         }
     }, {
         tableName: 'API_KEY',
-        timestamps: true,
+        timestamps: false,
         underscored: true
     });
     ApiKey.associate = (models) => {

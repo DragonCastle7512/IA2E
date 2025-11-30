@@ -6,16 +6,17 @@ module.exports = (sequelize, DataTypes) => {
             primaryKey: true
         },
         email: {
-            type: DataTypes.TEXT,
+            type: DataTypes.STRING(30),
             allowNull: false,
             unique: true
         },
         password: {
-            type: DataTypes.TEXT,
+            type: DataTypes.STRING(20),
             allowNull: false
         }
     }, {
         tableName: 'MEMBER',
+        timestamps: false,
         underscored: true
     });
 
