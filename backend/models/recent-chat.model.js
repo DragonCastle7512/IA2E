@@ -2,7 +2,7 @@ module.exports = (sequelize, DataTypes) => {
     const RecentChat = sequelize.define('RecentChat', {
         id: {
             type: DataTypes.UUID,
-            defaultValue: DataTypes.UUIDV4,
+            defaultValue: sequelize.literal('gen_random_uuid()'),
             primaryKey: true
         },
         member_id: {
@@ -15,7 +15,7 @@ module.exports = (sequelize, DataTypes) => {
         },
         date: {
             type: DataTypes.DATE,
-            defaultValue: DataTypes.NOW
+            defaultValue: sequelize.literal('NOW()')
         },
         chats: {
             type: DataTypes.JSONB,

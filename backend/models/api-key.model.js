@@ -2,7 +2,7 @@ module.exports = (sequelize, DataTypes) => {
     const ApiKey = sequelize.define('ApiKey', {
         id: {
             type: DataTypes.UUID,
-            defaultValue: DataTypes.UUIDV4,
+            defaultValue: sequelize.literal('gen_random_uuid()'),
             primaryKey: true
         },
         member_id: {
@@ -16,6 +16,7 @@ module.exports = (sequelize, DataTypes) => {
         },
         create_at: {
             type: DataTypes.DATE,
+            defaultValue: sequelize.literal('NOW()'),
             allowNull: false
         },
         expires_at: {

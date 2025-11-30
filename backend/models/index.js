@@ -30,8 +30,8 @@ models.initializeDatabase = async () => {
         await models.sequelize.authenticate();
         console.log('✅ DB 연결 성공.');
 
-        // 테이블 동기화 (개발/테스트용)
-        await models.sequelize.sync({ force: true });
+        // 테이블 동기화
+        await models.sequelize.sync({  });
         console.log('✅ DB 스키마 동기화 완료.');
         
     } catch (error) {

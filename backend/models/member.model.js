@@ -2,7 +2,7 @@ module.exports = (sequelize, DataTypes) => {
     const Member = sequelize.define('Member', {
         id: {
             type: DataTypes.UUID,
-            defaultValue: DataTypes.UUIDV4,
+            defaultValue: sequelize.literal('gen_random_uuid()'),
             primaryKey: true
         },
         email: {
