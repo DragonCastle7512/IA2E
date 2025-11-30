@@ -16,10 +16,11 @@ const systemInstructions = [
 /* api/fetch */
 router.post('/fetch', async (req, res) => {
     const promptValue = req.body.prompt;
-    
+
     const gemini = new GoogleGenAI({
         apiKey: process.env.GEMINI_API_KEY
     });
+    
     
     const Instructions = "답변 시 다음 규칙을 반드시 따르세요.\n\n"+
         systemInstructions.map((instruction, index) => `${index + 1}. ${instruction}`)
