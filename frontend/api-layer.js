@@ -55,3 +55,5 @@ async function del(url) {
     
     return response.status === 204 ? null : response.json();
 }
+
+export { get, post, put, del };

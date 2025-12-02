@@ -1,10 +1,14 @@
+import { post } from "./api-layer.js";
+
 document.addEventListener('DOMContentLoaded', () => {
     const promptInput = document.getElementById('promptInput');
     const resultOutput = document.getElementById('resultOutput');
     const loadingIndicator = document.getElementById('loadingIndicator');
 
-    const API_ENDPOINT = 'http://localhost:3000/api/fetch';
+    const API_ENDPOINT = 'http://localhost:3000/api';
+
     let streaming = false;
+    let selectedChat = null;
 
     /* 프롬포트창 shift+Enter 시 높이 자동 조절 */
     promptInput.addEventListener('input', () => {
@@ -61,6 +65,23 @@ document.addEventListener('DOMContentLoaded', () => {
         }
         // 사용자 질의 추가
         appendMessage(prompt);
+
+        // 첫 메세지라면 채팅 생성
+        if(selectedChat === null) {
+            const chat = await post("/chat/save", {
+                member_id: "f4063d69-33e8-4f04-81f4-50da201a98b1",
+                title: prompt
+            })
+            selectedChat = chat.id
+        }
+        //사용자 메세지 추가
+        const userMessage = await post("/message/save", {
+            chat_id: selectedChat,
+            is_user: true,
+            content: prompt
+        })
+        // console.log(userMessage);
+
         streaming = true;
         promptInput.value = '';
         promptInput.style.height = 'auto';
@@ -69,7 +90,7 @@ document.addEventListener('DOMContentLoaded', () => {
         // AI 응답 추가
         let aiMessageDiv = appendMessage('생각 중...', false, true);
         try {
-            const response = await fetch(API_ENDPOINT, {
+            const response = await fetch(API_ENDPOINT+"/fetch", {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -105,6 +126,13 @@ document.addEventListener('DOMContentLoaded', () => {
                 resultOutput.scrollTop = resultOutput.scrollHeight;
             }
             aiMessageDiv.classList.remove('streaming');
+
+            const aiMessage = await post("/message/save", {
+                chat_id: selectedChat,
+                is_user: false,
+                content: fullContent
+            })
+            // console.log(aiMessage)
             //Prism.highlightAll();
         } catch (error) {
             resultOutput.textContent = `오류 발생: ${error.message}. 서버 로그를 확인해주세요.`;

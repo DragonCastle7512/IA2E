@@ -22,8 +22,10 @@ app.use(cors(corsOptions))
 app.use(express.json());
 
 /* backend 호출 */ 
-app.use('/api', require('./routes/fetch-api.route'));
-app.use('/api', require('./routes/test.route'));
+app.use('/api', require('./controllers/fetch-api.controller'));
+app.use('/api', require('./controllers/recent-chat.controller'));
+app.use('/api', require('./controllers/chat-message.controller'));
+app.use('/api', require('./controllers/test.controller'));
 /* frontend 폴더 기준으로 서빙 */
 app.use(express.static(path.join(__dirname, '..', 'frontend')));
 
