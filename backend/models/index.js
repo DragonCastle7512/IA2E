@@ -4,6 +4,7 @@ const MemberModel = require('./member.model');
 const ApiKeyModel = require('./api-key.model');
 const SettingModel = require('./setting.model');
 const RecentChatModel = require('./recent-chat.model');
+const ChatMessage = require('./chat-message');
 
 const sequelize = new Sequelize(process.env.DATABASE_URL, {
     dialect: 'postgres',
@@ -17,6 +18,7 @@ models.Member = MemberModel(sequelize, DataTypes);
 models.ApiKey = ApiKeyModel(sequelize, DataTypes);
 models.Setting = SettingModel(sequelize, DataTypes);
 models.RecentChat = RecentChatModel(sequelize, DataTypes);
+models.ChatMessage = ChatMessage(sequelize, DataTypes);
 
 Object.keys(models).forEach(model => {
     if (models[model].associate) {
@@ -31,7 +33,7 @@ models.initializeDatabase = async () => {
         console.log('✅ DB 연결 성공.');
 
         // 테이블 동기화
-        await models.sequelize.sync({  });
+        await models.sequelize.sync({ });
         console.log('✅ DB 스키마 동기화 완료.');
         
     } catch (error) {

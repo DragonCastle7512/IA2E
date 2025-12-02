@@ -16,10 +16,6 @@ module.exports = (sequelize, DataTypes) => {
         date: {
             type: DataTypes.DATE,
             defaultValue: sequelize.literal('NOW()')
-        },
-        chats: {
-            type: DataTypes.JSONB,
-            allowNull: false
         }
     }, {
         tableName: 'RECENT_CHAT',
@@ -27,8 +23,9 @@ module.exports = (sequelize, DataTypes) => {
         underscored: true
     });
 
-    RecentChat.assocate = (models) => {
+    RecentChat.associate = (models) => {
         models.RecentChat.belongsTo(models.Member, { foreignKey: 'member_id', onDelete: 'CASCADE' });
+        models.RecentChat.hasMany(models.ChatMessage, { foreignKey: 'chat_id', onDelete: 'CASCADE' });
     };
 
     return RecentChat
