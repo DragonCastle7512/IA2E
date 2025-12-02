@@ -1,61 +1,29 @@
 import { post } from "./api-layer.js";
+import { renderRecentChat } from "./ui/menu-utils.js";
+import { appendMessage, setupAutoResize, setupClickHandler, setupToggle } from "./ui/ui-handler.js";
+
+let selectedChat = null;
+export function setSelectedChat(chatId) {
+    selectedChat = chatId;
+}
 
 document.addEventListener('DOMContentLoaded', () => {
     const promptInput = document.getElementById('promptInput');
     const resultOutput = document.getElementById('resultOutput');
     const loadingIndicator = document.getElementById('loadingIndicator');
+    const sidebar = document.querySelector('.sidebar');
+    const menuButton = document.querySelector('.menu-button');
+    const conversationList = document.getElementById('conversationList');
 
     const API_ENDPOINT = 'http://localhost:3000/api';
 
     let streaming = false;
-    let selectedChat = null;
 
-    /* 프롬포트창 shift+Enter 시 높이 자동 조절 */
-    promptInput.addEventListener('input', () => {
-        promptInput.style.height = 'auto';
-        promptInput.style.height = promptInput.scrollHeight + 'px';
-    });
+    setupAutoResize(promptInput)
+    setupClickHandler(promptInput, streaming, handleSend)
+    setupToggle(menuButton, sidebar)
+    renderRecentChat(conversationList);
 
-    /* 버튼 클릭 이벤트 핸들러 */
-    promptInput.addEventListener('keydown', (e) => {
-        if (e.key === 'Enter' && !e.shiftKey && !streaming) {
-            e.preventDefault();
-            handleSend();
-        }
-    });
-
-    /* 사이드바 토글 기능 */
-    const sidebar = document.querySelector('.sidebar');
-    const menuButton = document.querySelector('.menu-button'); 
-    if (menuButton && sidebar) {
-        menuButton.addEventListener('click', () => {
-            sidebar.classList.toggle('collapsed');
-        });
-    }
-
-    /* 메세지 블록 추가 */
-    function appendMessage(text, isUser = true, isStreaming = false) {
-        const messageDiv = document.createElement('div');
-        messageDiv.classList.add('message');
-        messageDiv.classList.add(isUser ? 'user-message' : 'system-message');
-        
-        if (!isUser) {
-            if (isStreaming) {
-                messageDiv.classList.add('streaming');
-                messageDiv.innerHTML = '<span class="typing-indicator">생각 중...</span>';
-            } else {
-                messageDiv.innerHTML = DOMPurify.sanitize(marked.parse(text));
-            }
-        }
-        else {
-            messageDiv.textContent = text;
-        }
-
-        resultOutput.appendChild(messageDiv);
-        resultOutput.scrollTop = resultOutput.scrollHeight;
-        return messageDiv;
-    }
-    
     async function handleSend() {
         const prompt = promptInput.value.trim();
 
@@ -70,7 +38,7 @@ document.addEventListener('DOMContentLoaded', () => {
         if(selectedChat === null) {
             const chat = await post("/chat/save", {
                 member_id: "f4063d69-33e8-4f04-81f4-50da201a98b1",
-                title: prompt
+                title: (prompt.length < 15) ? prompt : prompt.substring(0, 15)+"..."
             })
             selectedChat = chat.id
         }

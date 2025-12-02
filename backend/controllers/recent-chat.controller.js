@@ -6,6 +6,12 @@ const router = Router();
 
 const chatRepositoy = new RecentChatRepository(RecentChat);
 
+/* api/chats */
+router.get('/chats', async (req, res) => {
+    const response = await chatRepositoy.findAllChat();
+    res.status(200).json(response);
+});
+
 /* api/chat/save */
 router.post('/chat/save', async (req, res) => {
     const r = req.body

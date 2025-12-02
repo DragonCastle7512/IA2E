@@ -6,6 +6,12 @@ const router = Router();
 
 const messageRepositoy = new ChatMessageRepository(ChatMessage);
 
+/* api/messages */
+router.get('/messages', async (req, res) => {
+    const response = await messageRepositoy.findAllMessageById(req.query.id);
+    res.status(200).json(response);
+});
+
 /* api/message/save */
 router.post('/message/save', async (req, res) => {
     const r = req.body
