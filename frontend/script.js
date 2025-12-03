@@ -1,28 +1,30 @@
 import { post } from "./api-layer.js";
-import { renderRecentChat } from "./ui/menu-utils.js";
+import { markedSelectedItem, renderRecentChat, selectItem, setupNewChatButton } from "./ui/menu-utils.js";
 import { appendMessage, setupAutoResize, setupClickHandler, setupToggle } from "./ui/ui-handler.js";
 
 let selectedChat = null;
+let streaming = false;
 export function setSelectedChat(chatId) {
     selectedChat = chatId;
 }
+export const getStreaming = () => streaming;
 
-document.addEventListener('DOMContentLoaded', () => {
+document.addEventListener('DOMContentLoaded', async () => {
     const promptInput = document.getElementById('promptInput');
     const resultOutput = document.getElementById('resultOutput');
     const loadingIndicator = document.getElementById('loadingIndicator');
-    const sidebar = document.querySelector('.sidebar');
-    const menuButton = document.querySelector('.menu-button');
-    const conversationList = document.getElementById('conversationList');
 
     const API_ENDPOINT = 'http://localhost:3000/api';
 
-    let streaming = false;
-
-    setupAutoResize(promptInput)
-    setupClickHandler(promptInput, streaming, handleSend)
-    setupToggle(menuButton, sidebar)
-    renderRecentChat(conversationList);
+    setupNewChatButton();
+    setupAutoResize();
+    setupClickHandler(handleSend);
+    setupToggle();
+    // selectedChat 설정까지 기다림
+    await (async () => {
+        await renderRecentChat();
+        selectItem(selectedChat);
+    })();
 
     async function handleSend() {
         const prompt = promptInput.value.trim();
@@ -39,8 +41,12 @@ document.addEventListener('DOMContentLoaded', () => {
             const chat = await post("/chat/save", {
                 member_id: "f4063d69-33e8-4f04-81f4-50da201a98b1",
                 title: (prompt.length < 15) ? prompt : prompt.substring(0, 15)+"..."
-            })
-            selectedChat = chat.id
+            });
+            // renderRecentChat내의 setSelectedChat() 기다리기
+            await (async () => {
+                await renderRecentChat();
+                markedSelectedItem(selectedChat);
+            })();
         }
         //사용자 메세지 추가
         const userMessage = await post("/message/save", {

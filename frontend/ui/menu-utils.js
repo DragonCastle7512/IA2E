@@ -3,9 +3,12 @@ import { setSelectedChat } from "../script.js";
 import { renderMessage } from "./ui-handler.js";
 
 /* 최근 대화 목록 불러오기 */
-async function renderRecentChat(conversationList) {
+async function renderRecentChat() {
+    const conversationList = document.getElementById('conversationList');
     const chats = await get('/chats');
     conversationList.innerHTML = '';
+    if(!chats || chats.length <= 0) return;
+    setSelectedChat(chats[0].id);
 
     for (const chat of chats) {
         const dateObj = new Date(chat.date);
@@ -41,17 +44,37 @@ async function handleConversationClick(event) {
     const clickedItem = event.target.closest('.conversation-item'); 
     
     if (!clickedItem) return;
-    
-    const id = clickedItem.dataset.id;
-    setSelectedChat(id);
-    
-    const messages = await get(`/messages?id=${id}`);
-    renderMessage(messages)
 
+    const id = clickedItem.dataset.id;
+    selectItem(id);
+}
+
+/* 선택된 메뉴 색상 변경 */
+function markedSelectedItem(id) {
+    setSelectedChat(id);
     document.querySelectorAll('.conversation-item').forEach(item => {
         item.classList.remove('active');
     });
-    clickedItem.classList.add('active');
+    
+    if(id === null) return;
+    document.querySelector(`[data-id="${id}"]`).classList.add('active');
 }
 
-export { renderRecentChat, handleConversationClick }
+/* 메뉴 선택 */
+async function selectItem(id) {
+    if(id === null) return;
+    markedSelectedItem(id);
+    const messages = await get(`/messages?id=${id}`);
+    renderMessage(messages);
+}
+
+/* 새 채팅 클릭 시 페이지 초기화 */
+function setupNewChatButton() {
+    const newChatButton = document.getElementById('newChatButton');
+    newChatButton.addEventListener('click', (e) => {
+        document.getElementById('resultOutput').innerHTML = '';
+        markedSelectedItem(null);
+    })
+}
+
+export { renderRecentChat, handleConversationClick, setupNewChatButton, markedSelectedItem, selectItem }

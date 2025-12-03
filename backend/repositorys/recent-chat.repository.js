@@ -4,7 +4,9 @@ class RecentChatRepository {
     }
 
     async findAllChat() {
-        return await this.RecentChat.findAll();
+        return await this.RecentChat.findAll({
+            order: [['date', 'DESC']]
+        });
     }
 
     async createChat(chat) {
