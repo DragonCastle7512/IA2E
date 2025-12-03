@@ -15,6 +15,10 @@ module.exports = (sequelize, DataTypes) => {
         },
         content: {
             type: DataTypes.TEXT
+        },
+        create_at: {
+            type: DataTypes.DATE,
+            defaultValue: sequelize.literal('NOW()')
         }
     }, {
         tableName: 'CHAT_MESSAGE',

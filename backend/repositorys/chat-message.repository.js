@@ -7,7 +7,8 @@ class ChatMessageRepository {
         const messages = await this.ChatMessage.findAll({
             where: {
                 chat_id: chatId
-            }
+            }, 
+            order: [['create_at', 'ASC']]
         });
         return messages.map(message => message.toJSON());
     }

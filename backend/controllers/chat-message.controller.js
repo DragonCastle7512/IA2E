@@ -14,7 +14,7 @@ router.get('/messages', async (req, res) => {
 
 /* api/message/save */
 router.post('/message/save', async (req, res) => {
-    const r = req.body
+    const r = req.body;
     const data = {
 	    chat_id: r.chat_id,
 	    is_user: r.is_user,

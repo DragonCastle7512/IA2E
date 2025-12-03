@@ -39,7 +39,7 @@ document.addEventListener('DOMContentLoaded', async () => {
         // 첫 메세지라면 채팅 생성
         if(selectedChat === null) {
             const chat = await post("/chat/save", {
-                member_id: "f4063d69-33e8-4f04-81f4-50da201a98b1",
+                member_id: "54eafe78-27fe-447f-a997-3bd081987eed",
                 title: (prompt.length < 15) ? prompt : prompt.substring(0, 15)+"..."
             });
             // renderRecentChat내의 setSelectedChat() 기다리기
@@ -54,7 +54,6 @@ document.addEventListener('DOMContentLoaded', async () => {
             is_user: true,
             content: prompt
         })
-        // console.log(userMessage);
 
         streaming = true;
         promptInput.value = '';
