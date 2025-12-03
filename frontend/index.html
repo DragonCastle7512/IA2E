@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>AI 챗 인터페이스</title>
     <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="setting-modal.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css" integrity="sha512-2SwdPD6INVrV/lHTZbO2nodKhrnDdJK9/kg2XD1r9uGqPo1cUbujc+IYdlYdEErWNu69gVcYgdxlmVmzTWnetw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
     <link href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" rel="stylesheet" />
     <link href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/plugins/toolbar/prism-toolbar.min.css" rel="stylesheet" />
@@ -38,10 +39,13 @@
             <div class="settings-area">
                 <p class="menu-title">설정</p>
                 <ul class="conversation-list">
-                    <li class="conversation-item">
+                    <li class="conversation-item" id="apiKeySettingBtn">
+                        <span class="title"><i class="menu-icon fa-solid fa-key"></i>API 키 등록</span>
+                    </li>
+                    <li class="conversation-item" id="themeSettingBtn">
                         <span class="title"><i class="menu-icon fa-solid fa-cloud-sun"></i>테마 및 색상</span>
                     </li>
-                    <li class="conversation-item">
+                    <li class="conversation-item" id="aiSettingBtn">
                         <span class="title"><i class="menu-icon fa-solid fa-user-check"></i>맞춤형 AI</span>
                     </li>
                 </ul>
@@ -68,10 +72,18 @@
             </div>
         </div>
     </div>
+
+    <div id="floatingSettingPanel" class="fixed-panel hidden">
+        <div id="panelContentContainer" class="panel-content">
+            
+        </div>
+        <button id="closePanelBtn" class="close-btn"><i class="fa-solid fa-xmark"></i></button>
+    </div>
     
     <script src="https://cdnjs.cloudflare.com/ajax/libs/dompurify/3.0.6/purify.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/marked/12.0.2/marked.min.js"></script>
     <script src="conf/prism.js"></script>
+    <script src="ui/panel.js" type="module"></script>
     <script src="script.js" type="module"></script>
 </body>
 </html>

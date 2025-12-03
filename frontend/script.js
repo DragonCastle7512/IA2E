@@ -17,7 +17,7 @@ document.addEventListener('DOMContentLoaded', async () => {
     const API_ENDPOINT = 'http://localhost:3000/api';
 
     setupNewChatButton();
-    setupAutoResize();
+    setupAutoResize(document.getElementById('promptInput'));
     setupClickHandler(handleSend);
     setupToggle();
     // selectedChat 설정까지 기다림

@@ -1,11 +1,10 @@
 import { getStreaming } from "../script.js";
 
 /* 프롬포트창 shift+Enter 시 높이 자동 조절 */
-function setupAutoResize() {
-    const promptInput = document.getElementById('promptInput');
-    promptInput.addEventListener('input', () => {
-        promptInput.style.height = 'auto';
-        promptInput.style.height = promptInput.scrollHeight + 'px';
+function setupAutoResize(input) {
+    input.addEventListener('input', () => {
+        input.style.height = 'auto';
+        input.style.height = input.scrollHeight + 'px';
     });
 }
 
@@ -60,7 +59,6 @@ function appendMessage(text, isUser = true, isStreaming = false) {
 
 /* 메세지 전체 랜더링 */
 function renderMessage(messages) {
-    console.log(getStreaming());
     document.getElementById('resultOutput').innerHTML = '';
     for (const message of messages) {
         appendMessage(message.content, message.is_user)
