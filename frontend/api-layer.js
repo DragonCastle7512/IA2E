@@ -1,4 +1,4 @@
-const API_ENDPOINT = 'http://localhost:3000/api';
+const API_ENDPOINT = '/api';
 
 async function get(url) {
     const response = await fetch(API_ENDPOINT + url);
@@ -7,7 +7,7 @@ async function get(url) {
         throw new Error(`요청 실패: ${response.status}`);
     }
     
-    return response.json();
+    return response;
 }
 
 async function post(url, obj) {
@@ -21,7 +21,7 @@ async function post(url, obj) {
     if (!response.ok) {
         throw new Error(`요청 실패: ${response.status}`);
     }
-    return response.json();
+    return response;
 }
 
 async function put(url, obj) {
@@ -41,7 +41,7 @@ async function put(url, obj) {
         return null;
     }
     
-    return response.json(); 
+    return response; 
 }
 
 async function del(url) {
@@ -53,7 +53,7 @@ async function del(url) {
         throw new Error(`요청 실패: ${response.status}`);
     }
     
-    return response.status === 204 ? null : response.json();
+    return response.status === 204 ? null : response;
 }
 
 export { get, post, put, del };

@@ -1,3 +1,4 @@
+
 import { get } from "../api-layer.js";
 import { setSelectedChat } from "../script.js";
 import { renderMessage } from "./ui-handler.js";
@@ -5,7 +6,9 @@ import { renderMessage } from "./ui-handler.js";
 /* 최근 대화 목록 불러오기 */
 async function renderRecentChat() {
     const conversationList = document.getElementById('conversationList');
-    const chats = await get('/chats');
+    const response = await get('/chats');
+    const chats = await response.json();
+    
     conversationList.innerHTML = '';
     if(!chats || chats.length <= 0) return;
     setSelectedChat(chats[0].id);
@@ -64,7 +67,8 @@ function markedSelectedItem(id) {
 async function selectItem(id) {
     if(id === null) return;
     markedSelectedItem(id);
-    const messages = await get(`/messages?id=${id}`);
+    const response = await get(`/messages?id=${id}`);
+    const messages = await response.json();
     renderMessage(messages);
 }
 

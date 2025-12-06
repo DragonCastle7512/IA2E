@@ -6,30 +6,18 @@ const port = 3000
 
 require('dotenv').config({ path: path.resolve(__dirname, '..', '.env') });
 
-// DB 연결
+/* DB 연결 */
 const dbPool = require('./conf/db');
-
-/* live server cors 열어두기 */
-const cors = require('cors');
 const models = require('./models');
-const corsOptions = {
-    origin: 'http://127.0.0.1:5500',
-    methods: ['GET', 'POST', 'PUT', 'DELETE'],
-    allowedHeaders: ['Content-Type', 'Authorization'],
-};
-app.use(cors(corsOptions))
-/* 요청 json으로 파싱 */
-app.use(express.json());
 
-/* backend 호출 */ 
-app.use('/api', require('./controllers/fetch-api.controller'));
-app.use('/api', require('./controllers/recent-chat.controller'));
-app.use('/api', require('./controllers/chat-message.controller'));
-app.use('/api', require('./controllers/test.controller'));
-/* frontend 폴더 기준으로 서빙 */
+const setupMiddleware = require('./conf/middleware');
+setupMiddleware(app);
+
 app.use(express.static(path.join(__dirname, '..', 'frontend')));
 
-// db 연결 성공 시에만 서버 시작
+const setupRoutes = require('./routes');
+setupRoutes(app);
+
 dbPool.query('SELECT 1', (err) => {
     if (err) {
         console.error('DB 연결 실패!', err.stack);

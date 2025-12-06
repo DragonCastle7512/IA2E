@@ -14,7 +14,7 @@ document.addEventListener('DOMContentLoaded', async () => {
     const resultOutput = document.getElementById('resultOutput');
     const loadingIndicator = document.getElementById('loadingIndicator');
 
-    const API_ENDPOINT = 'http://localhost:3000/api';
+    const API_ENDPOINT = '/api';
 
     setupNewChatButton();
     setupAutoResize(document.getElementById('promptInput'));
@@ -38,7 +38,7 @@ document.addEventListener('DOMContentLoaded', async () => {
 
         // 첫 메세지라면 채팅 생성
         if(selectedChat === null) {
-            const chat = await post("/chat/save", {
+            await post("/chat/save", {
                 member_id: "54eafe78-27fe-447f-a997-3bd081987eed",
                 title: (prompt.length < 15) ? prompt : prompt.substring(0, 15)+"..."
             });
@@ -49,7 +49,7 @@ document.addEventListener('DOMContentLoaded', async () => {
             })();
         }
         //사용자 메세지 추가
-        const userMessage = await post("/message/save", {
+        await post("/message/save", {
             chat_id: selectedChat,
             is_user: true,
             content: prompt
@@ -63,14 +63,8 @@ document.addEventListener('DOMContentLoaded', async () => {
         // AI 응답 추가
         let aiMessageDiv = appendMessage('생각 중...', false, true);
         try {
-            const response = await fetch(API_ENDPOINT+"/fetch", {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify({
-                    prompt: prompt
-                })
+            const response = await post("/fetch", {
+                prompt: prompt
             });
 
             if (!response.ok) {
@@ -100,7 +94,7 @@ document.addEventListener('DOMContentLoaded', async () => {
             }
             aiMessageDiv.classList.remove('streaming');
 
-            const aiMessage = await post("/message/save", {
+            await post("/message/save", {
                 chat_id: selectedChat,
                 is_user: false,
                 content: fullContent

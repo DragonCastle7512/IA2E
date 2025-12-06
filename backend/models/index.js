@@ -4,7 +4,7 @@ const MemberModel = require('./member.model');
 const ApiKeyModel = require('./api-key.model');
 const SettingModel = require('./setting.model');
 const RecentChatModel = require('./recent-chat.model');
-const ChatMessage = require('./chat-message');
+const ChatMessage = require('./chat-message.model');
 
 const sequelize = new Sequelize(process.env.DATABASE_URL, {
     dialect: 'postgres',

@@ -1,0 +1,68 @@
+/* 1. 전체 화면 스타일: 배경 설정 및 Flexbox로 중앙 정렬 준비 */
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #f0f2f5;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+}
+
+/* 2. 로그인 컨테이너 스타일 */
+.login-container {
+    background-color: #fff;
+    padding: 40px;
+    border-radius: 12px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+    width: 100%;
+    max-width: 350px;
+    text-align: center;
+}
+
+/* 3. 제목 스타일 */
+.login-container h2 {
+    margin-bottom: 30px;
+    color: #333;
+}
+
+/* 4. 입력 필드 그룹 스타일 */
+.input-group {
+    margin-bottom: 20px;
+    text-align: left;
+}
+
+/* 5. 라벨 스타일 */
+.input-group label {
+    display: block;
+    margin-bottom: 8px;
+    font-weight: bold;
+    color: #555;
+}
+
+/* 6. 입력 필드 스타일 */
+.input-group input {
+    width: 100%;
+    padding: 12px;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    box-sizing: border-box;
+}
+
+/* 7. 버튼 스타일 */
+button {
+    width: 100%;
+    padding: 12px;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 6px;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+button:hover {
+    background-color: #0056b3;
+}
