@@ -1,5 +1,6 @@
 const express = require('express');
 const cors = require('cors');
+const cookieParser = require('cookie-parser');
 
 module.exports = (app) => {
     // 1. CORS 설정
@@ -9,7 +10,9 @@ module.exports = (app) => {
         allowedHeaders: ['Content-Type', 'Authorization'],
     };
     app.use(cors(corsOptions));
-
+    app.use(express.urlencoded({ extended: true }));
     // 2. 요청 json 파싱 설정
     app.use(express.json());
+    // 3. Cookie Parser 등록
+    app.use(cookieParser())
 };

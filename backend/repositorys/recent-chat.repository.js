@@ -3,8 +3,11 @@ class RecentChatRepository {
         this.RecentChat = RecentChat;
     }
 
-    async findAllChat() {
+    async findAllChat(member_id) {
         return await this.RecentChat.findAll({
+            where: {
+                member_id: member_id
+            },
             order: [['date', 'DESC']]
         });
     }

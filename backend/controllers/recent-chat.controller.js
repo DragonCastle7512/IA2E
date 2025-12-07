@@ -8,16 +8,15 @@ const chatRepositoy = new RecentChatRepository(RecentChat);
 
 /* api/chats */
 router.get('/chats', async (req, res) => {
-    const response = await chatRepositoy.findAllChat();
+    const response = await chatRepositoy.findAllChat(req.user.id);
     res.status(200).json(response);
 });
 
 /* api/chat/save */
 router.post('/chat/save', async (req, res) => {
     const r = req.body
-    //f4063d69-33e8-4f04-81f4-50da201a98b1
     const data = {
-	    member_id: r.member_id,
+	    member_id: req.user.id,
 	    title: r.title,
 	};
     const response = await chatRepositoy.createChat(data);

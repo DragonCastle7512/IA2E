@@ -14,8 +14,6 @@ document.addEventListener('DOMContentLoaded', async () => {
     const resultOutput = document.getElementById('resultOutput');
     const loadingIndicator = document.getElementById('loadingIndicator');
 
-    const API_ENDPOINT = '/api';
-
     setupNewChatButton();
     setupAutoResize(document.getElementById('promptInput'));
     setupClickHandler(handleSend);
@@ -39,7 +37,6 @@ document.addEventListener('DOMContentLoaded', async () => {
         // 첫 메세지라면 채팅 생성
         if(selectedChat === null) {
             await post("/chat/save", {
-                member_id: "54eafe78-27fe-447f-a997-3bd081987eed",
                 title: (prompt.length < 15) ? prompt : prompt.substring(0, 15)+"..."
             });
             // renderRecentChat내의 setSelectedChat() 기다리기

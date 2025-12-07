@@ -21,5 +21,4 @@ try {
     console.error(err);
 }
 
-
 module.exports = router;

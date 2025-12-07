@@ -1,12 +1,18 @@
 const API_ENDPOINT = '/api';
 
-async function get(url) {
-    const response = await fetch(API_ENDPOINT + url);
-    
+function checkStatus(response) {
+    if(response.status === 401 || response.status === 403) {
+         window.location.href = '/login/login.html';
+    }
     if (!response.ok) { 
         throw new Error(`요청 실패: ${response.status}`);
     }
-    
+}
+
+async function get(url) {
+    const response = await fetch(API_ENDPOINT + url);
+    checkStatus(response);
+
     return response;
 }
 
@@ -18,9 +24,8 @@ async function post(url, obj) {
         },
         body: JSON.stringify(obj)
     });
-    if (!response.ok) {
-        throw new Error(`요청 실패: ${response.status}`);
-    }
+    checkStatus(response);
+
     return response;
 }
 
@@ -33,13 +38,7 @@ async function put(url, obj) {
         body: JSON.stringify(obj)
     });
     
-    if (!response.ok) {
-        throw new Error(`요청 실패: ${response.status}`);
-    }
-
-    if (response.status === 204) {
-        return null;
-    }
+    checkStatus(response);
     
     return response; 
 }
@@ -49,11 +48,9 @@ async function del(url) {
         method: 'DELETE',
     });
     
-    if (!response.ok) {
-        throw new Error(`요청 실패: ${response.status}`);
-    }
+    checkStatus(response);
     
-    return response.status === 204 ? null : response;
+    return response;
 }
 
 export { get, post, put, del };

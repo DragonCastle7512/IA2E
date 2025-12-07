@@ -104,28 +104,10 @@ document.addEventListener('DOMContentLoaded', () => {
         loadPanel(aiSettingBtn, aiCustomTemplate);
     });
     
-
-    // 2. <li> 클릭 시 패널 열기/닫기 토글
-    if (aiSettingBtn && panel) {
-        aiSettingBtn.addEventListener('click', () => {
-            
-        });
-    }
-
     // 닫기 버튼 클릭 시 패널 닫기 (X 버튼)
     if (closeBtn && panel) {
         closeBtn.addEventListener('click', () => {
             panel.classList.add('hidden');
-        });
-    }
-
-    const saveBtn = document.getElementById('saveBtn');
-    if (saveBtn) {
-        saveBtn.addEventListener('click', () => {
-            if (aiCustomInput.value) {
-                console.log("API Key 저장 시도:", aiCustomInput.value);
-                // 여기에 실제 저장 로직을 구현합니다.
-            }
         });
     }
 });
