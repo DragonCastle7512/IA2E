@@ -1,5 +1,11 @@
 import { setupAutoResize } from "./ui-handler.js";
 
+let personalAI = "";
+let theme = "light";
+let color = "gray";
+let geminiKey = "";
+let mistralKey = "";
+
 document.addEventListener('DOMContentLoaded', () => {
     const apiKeySettingBtn = document.getElementById('apiKeySettingBtn');
     const aiSettingBtn = document.getElementById('aiSettingBtn');
@@ -62,7 +68,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     function loadPanel(btn, templateString) {
         content.innerHTML = templateString;
-        if(btn === aiSettingBtn) {
+        if(selectedPanel === aiSettingBtn) {
             // DOM 조작 이후 Enter시 resize
             setupAutoResize(document.getElementById('aiCustomInput'));
         }
@@ -80,34 +86,64 @@ document.addEventListener('DOMContentLoaded', () => {
         panel.classList.toggle('hidden');
     }
 
-    window.addEventListener('click', (e) => {
-        if (!panel.classList.contains('hidden')) {
-            if (!panel.contains(e.target)) {
-                panel.classList.add('hidden');
+    let selectedPanel = null;
+    function addPanelListener(btn, template) {
+        btn.addEventListener('click', (e) => {
+            selectedPanel = btn;
+            e.stopPropagation();
+            loadPanel(btn, template);
+            switch(selectedPanel) {
+                case aiSettingBtn:
+                    document.getElementById("aiCustomInput").value = personalAI;
+                    break;
+                case themeSettingBtn:
+                    document.getElementById("themeSelector").value = theme;
+                    document.getElementById("colorSelector").value = color;
+                    break;
+                case apiKeySettingBtn:
+                    document.getElementById("geminiApiKey").value = geminiKey;
+                    document.getElementById("mistralApiKey").value = mistralKey;
+                    break;
             }
-        }
-    });
-
+        });
+    }
     // 'API 키 등록' 클릭 시
-    apiKeySettingBtn.addEventListener('click', (e) => {
-        e.stopPropagation();
-        loadPanel(apiKeySettingBtn, apiKeyTemplate);
-    });
+    addPanelListener(apiKeySettingBtn, apiKeyTemplate);
     // '테마' 클릭 시
-    themeSettingBtn.addEventListener('click', (e) => {
-        e.stopPropagation();
-        loadPanel(themeSettingBtn, themeTemplate);
-    });
+    addPanelListener(themeSettingBtn, themeTemplate);
     // '맞춤형 AI' 클릭 시
-    aiSettingBtn.addEventListener('click', (e) => {
-        e.stopPropagation();
-        loadPanel(aiSettingBtn, aiCustomTemplate);
-    });
-    
+    addPanelListener(aiSettingBtn, aiCustomTemplate);
+
+    function confirmApply() {
+        switch(selectedPanel) {
+            case aiSettingBtn:
+                personalAI = document.getElementById("aiCustomInput").value;
+                break;
+            case themeSettingBtn:
+                theme = document.getElementById("themeSelector").value;
+                color = document.getElementById("colorSelector").value;
+                break;
+            case apiKeySettingBtn:
+                geminiKey = document.getElementById("geminiApiKey").value;
+                mistralKey = document.getElementById("mistralApiKey").value;
+                break;
+        }
+    }
+
     // 닫기 버튼 클릭 시 패널 닫기 (X 버튼)
     if (closeBtn && panel) {
         closeBtn.addEventListener('click', () => {
             panel.classList.add('hidden');
         });
     }
+
+    // 패널 밖 클릭 시 닫기
+    window.addEventListener('click', (e) => {
+        if (!panel.classList.contains('hidden')) {
+            if (!panel.contains(e.target)) {
+                confirmApply();
+                panel.classList.add('hidden');
+            }
+        }
+    });
 });
