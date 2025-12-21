@@ -1,10 +1,19 @@
+import { get, put } from "../api-layer.js";
 import { setupAutoResize } from "./ui-handler.js";
 
-let personalAI = "";
-let theme = "light";
-let color = "gray";
-let geminiKey = "";
-let mistralKey = "";
+let settings = {};
+(async function getSetting() {
+    const json = await (await get('/setting')).json();
+    const res = json[0];
+
+    settings = {
+        personalAI: res.personal_ai,
+        theme: res.theme,
+        color: res.chat_color
+    }
+    settings.geminiKey = "";
+    settings.mistralKey = "";
+})();
 
 document.addEventListener('DOMContentLoaded', async () => {
     const apiKeySettingBtn = document.getElementById('apiKeySettingBtn');
@@ -13,7 +22,7 @@ document.addEventListener('DOMContentLoaded', async () => {
     const panel = document.getElementById('floatingSettingPanel');
     const content = document.getElementById('panelContentContainer')
     const closeBtn = document.getElementById('closePanelBtn');
-    
+
     async function loadTemplate(path) {
         try {
             const response = await fetch(path);
@@ -55,15 +64,15 @@ document.addEventListener('DOMContentLoaded', async () => {
             loadPanel(btn, template);
             switch(selectedPanel) {
                 case aiSettingBtn:
-                    document.getElementById("aiCustomInput").value = personalAI;
+                    document.getElementById("aiCustomInput").value = settings.personalAI;
                     break;
                 case themeSettingBtn:
-                    document.getElementById("themeSelector").value = theme;
-                    document.getElementById("colorSelector").value = color;
+                    document.getElementById("themeSelector").value = settings.theme;
+                    document.getElementById("colorSelector").value = settings.color;
                     break;
                 case apiKeySettingBtn:
-                    document.getElementById("geminiApiKey").value = geminiKey;
-                    document.getElementById("mistralApiKey").value = mistralKey;
+                    document.getElementById("geminiApiKey").value = settings.geminiKey;
+                    document.getElementById("mistralApiKey").value = settings.mistralKey;
                     break;
             }
         });
@@ -75,18 +84,25 @@ document.addEventListener('DOMContentLoaded', async () => {
     // '맞춤형 AI' 클릭 시
     addPanelListener(aiSettingBtn, aiCustomTemplate);
 
-    function confirmApply() {
+    async function confirmApply() {
         switch(selectedPanel) {
             case aiSettingBtn:
-                personalAI = document.getElementById("aiCustomInput").value;
+                settings.personalAI = document.getElementById("aiCustomInput").value;
+                try {
+                    await put('/setting/personal_ai', {
+                        value: settings.personalAI
+                    });
+                } catch(err) {
+                    console.log(err)
+                }
                 break;
             case themeSettingBtn:
-                theme = document.getElementById("themeSelector").value;
-                color = document.getElementById("colorSelector").value;
+                settings.theme = document.getElementById("themeSelector").value;
+                settings.color = document.getElementById("colorSelector").value;
                 break;
             case apiKeySettingBtn:
-                geminiKey = document.getElementById("geminiApiKey").value;
-                mistralKey = document.getElementById("mistralApiKey").value;
+                settings.geminiKey = document.getElementById("geminiApiKey").value;
+                settings.mistralKey = document.getElementById("mistralApiKey").value;
                 break;
         }
     }

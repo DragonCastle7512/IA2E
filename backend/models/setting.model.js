@@ -16,7 +16,7 @@ module.exports = (sequelize, DataTypes) => {
         },
         chat_color: {
             type: DataTypes.STRING(20),
-            defaultValue: '#e9e9e9b4'
+            defaultValue: 'gray'
         },
         personal_ai: {
             type: DataTypes.TEXT
