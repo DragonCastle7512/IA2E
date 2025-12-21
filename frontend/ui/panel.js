@@ -6,7 +6,7 @@ let color = "gray";
 let geminiKey = "";
 let mistralKey = "";
 
-document.addEventListener('DOMContentLoaded', () => {
+document.addEventListener('DOMContentLoaded', async () => {
     const apiKeySettingBtn = document.getElementById('apiKeySettingBtn');
     const aiSettingBtn = document.getElementById('aiSettingBtn');
     const themeSettingBtn = document.getElementById('themeSettingBtn');
@@ -14,57 +14,18 @@ document.addEventListener('DOMContentLoaded', () => {
     const content = document.getElementById('panelContentContainer')
     const closeBtn = document.getElementById('closePanelBtn');
     
-    const apiKeyTemplate = `
-        <h3>API 키 등록</h3>
-        <div class="setting-content">
-            <div class="input-group-api">
-                <div>
-                    <label for="geminiApiKey">Gemini</label>
-                    <input type="text" id="geminiApiKey" placeholder="Gemini API 키 등록">
-                </div>
-                <div>
-                    <label for="mistralApiKey">Mistral</label>
-                    <input type="text" id="mistralApiKey" placeholder="Mistral API 키 등록">
-                </div>
-            </div>
-            <p class="description">본인의 키를 등록하여 AI 서비스를 이용하세요!</p>
-        </div>
-    `;
-
-    const themeTemplate = `
-        <h3>테마 및 색상</h3>
-        <div class="setting-content">
-            <div class="theme-section">
-                <h5>테마</h5>
-                <select id="themeSelector">
-                    <option value="light">라이트 모드</option>
-                    <option value="dark">다크 모드</option>
-                </select>
-            </div>
-            <div class="theme-section">
-                <h5>색상</h5>
-                <select id="colorSelector">
-                    <option value="gray">회색</option>
-                    <option value="red">빨강</option>
-                    <option value="orange">주황</option>
-                    <option value="yellow">노랑</option>
-                    <option value="green">초록</option>
-                    <option value="blue">파랑</option>
-                    <option value="purple">보라</option>
-                    <option value="pink">분홍</option>
-                </select>
-            </div>
-            <p class="description">원하는 테마와 색상으로 디자인 하세요!</p>
-        </div>
-    `;
-
-    const aiCustomTemplate = `
-        <h3>맞춤형 AI 설정</h3>
-        <div class="setting-content">
-            <textarea id="aiCustomInput" rows="1" placeholder="추가적인 요청사항"></textarea>
-            <p class="description">요청사항을 입력하여, 응답 방식을 설정하세요!</p>
-        </div>
-    `;
+    async function loadTemplate(path) {
+        try {
+            const response = await fetch(path);
+            return response.text();
+        } catch(e) {
+            console.error(e)
+        }
+    }
+    const DEFAULT_TEMPLATES_URL = '/ui/templates'
+    const apiKeyTemplate = await loadTemplate(`${DEFAULT_TEMPLATES_URL}/api-key-template.html`);
+    const themeTemplate = await loadTemplate(`${DEFAULT_TEMPLATES_URL}/theme-template.html`);
+    const aiCustomTemplate = await loadTemplate(`${DEFAULT_TEMPLATES_URL}/ai-custom-template.html`);
 
     function loadPanel(btn, templateString) {
         content.innerHTML = templateString;
