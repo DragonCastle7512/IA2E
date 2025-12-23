@@ -15,7 +15,6 @@ const systemInstructions = [
 /* api/fetch */
 router.post('/fetch', async (req, res) => {
     const { prompt } = req.body;
-    console.log(prompt)
 
     const gemini = new GoogleGenAI({
         apiKey: process.env.GEMINI_API_KEY
