@@ -1,5 +1,6 @@
 import { post } from "./api-layer.js";
 import { markedSelectedItem, renderRecentChat, selectItem, setupNewChatButton } from "./ui/menu-utils.js";
+import { settings } from "./ui/panel.js";
 import { appendMessage, setupAutoResize, setupClickHandler, setupToggle } from "./ui/ui-handler.js";
 
 let selectedChat = null;
@@ -61,7 +62,7 @@ document.addEventListener('DOMContentLoaded', async () => {
         let aiMessageDiv = appendMessage('생각 중...', false, true);
         try {
             const response = await post("/fetch", {
-                prompt: prompt
+                prompt: settings.personalAI+prompt
             });
 
             if (!response.ok) {

@@ -1,7 +1,7 @@
 import { get, put } from "../api-layer.js";
 import { setupAutoResize } from "./ui-handler.js";
 
-let settings = {};
+export let settings = {};
 (async function getSetting() {
     const json = await (await get('/setting')).json();
     const res = json[0];
