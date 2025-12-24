@@ -7,9 +7,9 @@ export let settings = {};
     const res = json[0];
 
     settings = {
-        personalAI: res.personal_ai,
-        theme: res.theme,
-        color: res.chat_color
+        personalAI: res.personal_ai || "",
+        theme: res.theme || "light",
+        color: res.chat_color || "gray"
     }
     settings.geminiKey = "";
     settings.mistralKey = "";

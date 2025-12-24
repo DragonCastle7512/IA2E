@@ -2,17 +2,28 @@ const jwt = require('jsonwebtoken');
 
 const authenticateToken = (req, res, next) => {
 
-    const PUBLIC_URLS = ['/api/login', '/login', '/login/'];
+    // 권한 없이 이용가능한 페이지
+    const PUBLIC_URLS = [
+        '/api/login', 
+        '/login', 
+        '/api/auth/google',
+        '/api/signup'
+    ];
 
-    const fullUrl = req.path;
+    // 하위 경로 전부 허용
+    const fullUrl = req.originalUrl.split('?')[0].replace(/\/$/, "");
     
-    if (PUBLIC_URLS.includes(fullUrl)) {
+    if (PUBLIC_URLS.some(prefix => fullUrl.startsWith(prefix))) {
         return next();
     }
-    
+
+    const isBackend = fullUrl.startsWith('/api');
     const token = req.cookies.access_token;
     if (!token) {
-        return res.status(401).json({ message: '인증 정보가 없습니다' });
+        if(isBackend) {
+            return res.status(401).json({ message: '인증 정보가 없습니다' });
+        }
+        return res.redirect('/login');
     }
 
     const secretKey = process.env.JWT_SECRET; 
@@ -25,7 +36,7 @@ const authenticateToken = (req, res, next) => {
         next();
 
     } catch (err) {
-        return res.status(403).json({ message: '유효하지 않은 토큰입니다' });
+        return isBackend ? res.status(403).json({ message: '유효하지 않은 토큰입니다' }) : res.redirect('/login');
     }
 };
 

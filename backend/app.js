@@ -3,20 +3,18 @@ const express = require('express')
 const path = require('path');
 const app = express()
 const port = 3000
-
 require('dotenv').config({ path: path.resolve(__dirname, '..', '.env') });
 
 /* DB 연결 */
 const dbPool = require('./conf/db');
 const models = require('./models');
-
+/* 미들웨어 및 라우터 등록 */
 const setupMiddleware = require('./conf/middleware');
-setupMiddleware(app);
-
-app.use(express.static(path.join(__dirname, '..', 'frontend')));
-
 const setupRoutes = require('./routes');
+
+setupMiddleware(app);
 setupRoutes(app);
+app.use(express.static(path.join(__dirname, '..', 'frontend')));
 
 dbPool.query('SELECT 1', (err) => {
     if (err) {

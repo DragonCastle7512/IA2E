@@ -11,5 +11,13 @@ class MemberRepository {
         });
         return messages;
     }
+
+    async createMember(member) {
+        const memberResult = await this.Member.create({
+            email: member.email,
+            password: member.password
+        });
+        return memberResult.toJSON();
+    }
 }
 module.exports = MemberRepository;

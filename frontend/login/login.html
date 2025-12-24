@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>IA2E</title>
-    <link rel="stylesheet" href="login.css">
+    <link rel="stylesheet" href="/login/login.css">
 </head>
 <body>
     <div class="login-container">
@@ -20,8 +20,12 @@
                 <label for="password">비밀번호</label>
                 <input type="password" id="password" name="password" required placeholder="비밀번호를 입력하세요">
             </div>
-            <button type="submit">로그인</button>
+            <button class="login-button" type="submit">로그인</button>
         </form>
+        <hr>
+        <div style="text-align: center;">
+            <a class="google-login-button" href="/api/auth/google">구글 계정으로 로그인</a>
+        </div>
     </div>
 
 </body>

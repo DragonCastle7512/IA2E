@@ -15,6 +15,13 @@ class SettingRepository {
             where: { member_id: id }
         })
     }
+
+    async createSetting(id) {
+        const newSetting = await this.Setting.create({
+            member_id: id
+        });
+        return newSetting.toJSON();
+    }
 }
 
 module.exports = SettingRepository;
