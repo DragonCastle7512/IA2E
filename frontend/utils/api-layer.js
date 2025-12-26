@@ -1,6 +1,5 @@
 const API_ENDPOINT = '/api';
 
-
 async function get(url) {
     const response = await fetch(API_ENDPOINT + url);
 
@@ -16,7 +15,6 @@ async function post(url, obj) {
         body: JSON.stringify(obj)
     });
 
-
     return response;
 }
 
@@ -29,7 +27,6 @@ async function put(url, obj) {
         body: JSON.stringify(obj)
     });
     
-    
     return response; 
 }
 
@@ -37,7 +34,6 @@ async function del(url) {
     const response = await fetch(API_ENDPOINT + url, {
         method: 'DELETE',
     });
-    
     
     return response;
 }

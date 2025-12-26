@@ -1,4 +1,4 @@
-import { get, put } from "../api-layer.js";
+import { get, put } from "../utils/api-layer.js";
 import { setupAutoResize } from "./ui-handler.js";
 
 export let settings = {};

@@ -7,13 +7,19 @@ const authenticateToken = (req, res, next) => {
         '/api/login', 
         '/login', 
         '/api/auth/google',
-        '/api/signup'
+        '/api/signup',
+        '/api/mail/send',
+        '/api/mail/verify',
+        '/signup'
     ];
 
     // 하위 경로 전부 허용
     const fullUrl = req.originalUrl.split('?')[0].replace(/\/$/, "");
+
+    const isPublic = PUBLIC_URLS.some(prefix => fullUrl.startsWith(prefix));
+    const isStaticFile = /\.(js|css|png|jpg|jpeg|gif|ico|svg)$/i.test(fullUrl);
     
-    if (PUBLIC_URLS.some(prefix => fullUrl.startsWith(prefix))) {
+    if (isPublic || isStaticFile) {
         return next();
     }
 

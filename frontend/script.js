@@ -1,4 +1,4 @@
-import { post } from "./api-layer.js";
+import { post } from "./utils/api-layer.js";
 import { markedSelectedItem, renderRecentChat, selectItem, setupNewChatButton } from "./ui/menu-utils.js";
 import { settings } from "./ui/panel.js";
 import { appendMessage, setupAutoResize, setupClickHandler, setupToggle } from "./ui/ui-handler.js";

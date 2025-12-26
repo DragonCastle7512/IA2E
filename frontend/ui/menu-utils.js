@@ -1,5 +1,5 @@
 
-import { get } from "../api-layer.js";
+import { get } from "../utils/api-layer.js";
 import { setSelectedChat } from "../script.js";
 import { renderMessage } from "./ui-handler.js";
 

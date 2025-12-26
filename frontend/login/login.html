@@ -9,11 +9,10 @@
 <body>
     <div class="login-container">
         <h2>로그인</h2>
-        
         <form id="loginForm" action="/api/login" method="POST">
             <div class="input-group">
-                <label for="username">사용자 ID (또는 이메일)</label>
-                <input type="text" id="email" name="email" required placeholder="ID를 입력하세요">
+                <label for="username">이메일</label>
+                <input type="text" id="email" name="email" required placeholder="이메일을 입력하세요">
             </div>
 
             <div class="input-group">
@@ -23,8 +22,11 @@
             <button class="login-button" type="submit">로그인</button>
         </form>
         <hr>
-        <div style="text-align: center;">
+        <div>
             <a class="google-login-button" href="/api/auth/google">구글 계정으로 로그인</a>
+        </div>
+        <div class="sign-up-form">
+            계정이 없으신가요? <a href="/signup">회원가입</a>
         </div>
     </div>
 

@@ -2,20 +2,9 @@ const { Router } = require("express");
 const MemberRepository = require("../repositorys/member.repository");
 const { Member } = require("../models");
 const router = Router();
-const jwt = require('jsonwebtoken');
 const passport = require("passport");
+const { jwtAuthentication } = require("../utils/jwt-authentication");
 const memberRepository = new MemberRepository(Member);
-
-function jwtAuthentication(res, member) {
-    const secretKey = process.env.JWT_SECRET; 
-    const token = jwt.sign({id: member.id}, secretKey, { expiresIn: '1h' });
-    res.cookie('access_token', token, {
-        httpOnly: true,
-        maxAge: 3600000,
-        path: '/',
-        sameSite: 'Lax'
-    });
-}
 
 /* api/login/info */
 router.get('/login/info', (req, res) => {
