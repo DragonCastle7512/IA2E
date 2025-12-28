@@ -27,7 +27,7 @@ router.post('/login', async (req, res) => {
     }
     jwtAuthentication(res, member);
 
-    return res.redirect('/');
+    return res.status(200).json({message: "로그인 성공"});
 });
 
 /* api/signup */
