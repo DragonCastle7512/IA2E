@@ -1,6 +1,5 @@
 const { Member } = require("../models");
 const { Router } = require("express");
-
 const router = Router();
 
 /* api/test */

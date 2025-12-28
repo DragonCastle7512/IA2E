@@ -1,10 +1,13 @@
 const { Router } = require("express");
 const MemberRepository = require("../repositorys/member.repository");
-const { Member } = require("../models");
+const SettingRepository = require("../repositorys/setting.repository")
+const { Member, Setting } = require("../models");
 const router = Router();
 const passport = require("passport");
 const { jwtAuthentication } = require("../utils/jwt-authentication");
+const { verifyMails } = require("../utils/mail-sender");
 const memberRepository = new MemberRepository(Member);
+const settingRepository = new SettingRepository(Setting);
 
 /* api/login/info */
 router.get('/login/info', (req, res) => {
@@ -32,13 +35,24 @@ router.post('/login', async (req, res) => {
 
 /* api/signup */
 router.post('/signup', async (req, res) => {
-    const r = req.body;
-    const data = {
-	    email: r.email,
-        password: r.password
-	};
-    const response = await memberRepository.createMember(data);
-    res.status(201).json(response);
+    const { email, password, passwordCheck } = req.body;
+    if(password != passwordCheck) {
+        return res.status(403).json({message: "두 비밀번호가 일치하지 않습니다"})
+    }
+    const regex = /^(?=.*[a-zA-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
+    if(!regex.test(password)) {
+        return res.status(403).json({message: "숫자, 영어, 특수문자를 포함하여 8글자 이상 작성해주세요"})
+    }
+    if(!verifyMails.has(email)) {
+        return res.status(403).json({message: "이메일 인증을 먼저 완료해 주세요"})
+    }
+    
+    const member = await memberRepository.createMember({email: email, password: password});
+    // 초기 설정 연결
+    await settingRepository.createSetting(member.id);
+    jwtAuthentication(res, member);
+
+    return res.status(201).json(member);
 });
 
 /* api/auth/google */

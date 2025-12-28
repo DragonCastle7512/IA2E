@@ -4,13 +4,13 @@ const authenticateToken = (req, res, next) => {
 
     // 권한 없이 이용가능한 페이지
     const PUBLIC_URLS = [
-        '/api/login', 
-        '/login', 
+        '/login',
+        '/signup',
         '/api/auth/google',
+        '/api/login',
         '/api/signup',
-        '/api/mail/send',
-        '/api/mail/verify',
-        '/signup'
+        '/api/mail',
+        '/api/test'
     ];
 
     // 하위 경로 전부 허용

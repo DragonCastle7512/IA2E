@@ -1,4 +1,7 @@
+const { verify } = require('jsonwebtoken');
 const nodemailer = require('nodemailer');
+
+const verifyMails = new Set(); 
 
 // Transport 정의
 const transporter = nodemailer.createTransport({
@@ -27,4 +30,4 @@ const sendVerificationEmail = async (email, token) => {
     }
 };
 
-module.exports = { sendVerificationEmail };
+module.exports = { sendVerificationEmail, verifyMails };

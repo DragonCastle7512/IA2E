@@ -82,7 +82,7 @@ body {
     width: 80%;
 }
 
-#verify-button {
+#verifyButton {
     width: 17%;
     color: #555;
     border: 1px solid #ccc;
@@ -92,7 +92,23 @@ body {
     cursor: pointer;
     transition: border 0.3s, color 0.3s;
 }
-#verify-button:hover {
+#verifyButton:not(:disabled):hover {
     border: 1px solid #287dd8;
     color: #287dd8;
+    cursor: pointer;
+}
+#verifyButton:disabled {
+    color: #555;
+    border: 1px solid #ccc;
+    cursor: not-allowed;
+}
+
+#verifyState {
+    margin: 0px;
+    font-size: 10pt;
+    color: #3ca550;
+    display: none;
+}
+#verifyState.active {
+    display: block;
 }

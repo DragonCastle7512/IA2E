@@ -8,7 +8,6 @@ document.addEventListener('DOMContentLoaded', () => {
         const data = Object.fromEntries(formData);
         try {
             const response = await post('/login', data);
-            console.log(response)
             if (response.status === 401) {
                 const result = await response.json();
                 alert(result.message); 
