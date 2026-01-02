@@ -32,7 +32,7 @@ models.initializeDatabase = async () => {
         await models.sequelize.authenticate();
         console.log('✅ DB 연결 성공.');
 
-        // 테이블 동기화
+        // 테이블 동기화(업데이트 시 alter: true, 초기화 시 force: true)
         await models.sequelize.sync({ });
         console.log('✅ DB 스키마 동기화 완료.');
         

@@ -6,6 +6,7 @@ const router = Router();
 const passport = require("passport");
 const { jwtAuthentication } = require("../utils/jwt-authentication");
 const { verifyMails } = require("../utils/mail-sender");
+const { compareHash, hash } = require("../utils/bcrypt-encoder");
 const memberRepository = new MemberRepository(Member);
 const settingRepository = new SettingRepository(Setting);
 
@@ -23,7 +24,8 @@ router.post('/login', async (req, res) => {
     const {email, password} = req.body;
 
     const member = await memberRepository.findByEmail(email);
-    if(member === null || password === '' || member.email !== email || member.password !== password) {
+    
+    if(member === null || password === '' || member.email !== email || !await compareHash(password, member.password)) {
         return res.status(401).json({ 
             message: "로그인 정보가 올바르지 않습니다."
         });
@@ -50,20 +52,24 @@ router.post('/signup', async (req, res) => {
     let resultMember;
     const existMember = await memberRepository.findByEmail(email);
     if(existMember && existMember.password === '') {
-        existMember.password = password;
+        try {
+        existMember.password = await hash(password);
         await existMember.save();
-        result = existMember;
+        resultMember = existMember;
+        } catch(e) {
+            console.error(e);
+        }
     }
     else {
-        const member = await memberRepository.createMember({email: email, password: password});
+        const member = await memberRepository.createMember({email: email, password: hash(password)});
         // 초기 설정 연결
         await settingRepository.createSetting(member.id);
-        result = member;
+        resultMember = member;
     }
     //자동 로그인
     jwtAuthentication(res, resultMember);
 
-    return res.status(201).json(result);
+    return res.status(201).json(resultMember);
 });
 
 /* api/auth/google */
