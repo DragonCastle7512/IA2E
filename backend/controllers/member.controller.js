@@ -23,7 +23,7 @@ router.post('/login', async (req, res) => {
     const {email, password} = req.body;
 
     const member = await memberRepository.findByEmail(email);
-    if(member === null || member.email !== email || member.password !== password) {
+    if(member === null || password === '' || member.email !== email || member.password !== password) {
         return res.status(401).json({ 
             message: "로그인 정보가 올바르지 않습니다."
         });
@@ -36,7 +36,7 @@ router.post('/login', async (req, res) => {
 /* api/signup */
 router.post('/signup', async (req, res) => {
     const { email, password, passwordCheck } = req.body;
-    if(password != passwordCheck) {
+    if(password !== passwordCheck) {
         return res.status(403).json({message: "두 비밀번호가 일치하지 않습니다"})
     }
     const regex = /^(?=.*[a-zA-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
@@ -46,13 +46,24 @@ router.post('/signup', async (req, res) => {
     if(!verifyMails.has(email)) {
         return res.status(403).json({message: "이메일 인증을 먼저 완료해 주세요"})
     }
-    
-    const member = await memberRepository.createMember({email: email, password: password});
-    // 초기 설정 연결
-    await settingRepository.createSetting(member.id);
-    jwtAuthentication(res, member);
 
-    return res.status(201).json(member);
+    let resultMember;
+    const existMember = await memberRepository.findByEmail(email);
+    if(existMember && existMember.password === '') {
+        existMember.password = password;
+        await existMember.save();
+        result = existMember;
+    }
+    else {
+        const member = await memberRepository.createMember({email: email, password: password});
+        // 초기 설정 연결
+        await settingRepository.createSetting(member.id);
+        result = member;
+    }
+    //자동 로그인
+    jwtAuthentication(res, resultMember);
+
+    return res.status(201).json(result);
 });
 
 /* api/auth/google */

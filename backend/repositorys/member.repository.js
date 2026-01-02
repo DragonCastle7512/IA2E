@@ -19,5 +19,17 @@ class MemberRepository {
         });
         return memberResult.toJSON();
     }
+
+    async update(member) {
+        const memberResult = await this.Member.update(
+            {
+                password: member.password
+            },
+            {
+                where: { email: member.email }
+            }
+        );
+        return memberResult.toJSON();
+    }
 }
 module.exports = MemberRepository;

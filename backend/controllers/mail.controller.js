@@ -14,7 +14,7 @@ router.get('/mail/send', async (req, res) => {
         return res.status(403).json({message: "이메일 형식을 확인해 주세요"})
     }
     const member = await memberRepository.findByEmail(email);
-    if(member !== null) {
+    if(member !== null && member.password !== '') {
         return res.status(403).json({message: "이미 존재하는 이메일 입니다"});
     }
     const secretKey = process.env.JWT_SECRET;

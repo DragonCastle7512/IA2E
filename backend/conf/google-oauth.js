@@ -26,7 +26,7 @@ module.exports = async () => {
                     email: email,
                     password: ""
                 })
-                const setting = await settingRepository.createSetting(member.id)
+                await settingRepository.createSetting(member.id)
                 
                 return done(null, member);
             } catch (error) {
