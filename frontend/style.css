@@ -390,8 +390,20 @@ body {
     100% { transform: rotate(360deg); }
 }
 
-.login-btn {
+.login-layout {
     position: absolute;
-    top: 10px;
-    right: 10px;
+    top: 20px;
+    right: 20px;
+    font-size: 14pt;
+}
+
+#loginBtn {
+    transition: color 0.3s ease;
+}
+#loginBtn:link, #loginBtn:visited {
+    text-decoration: none;
+    color: black;
+}
+#loginBtn:hover {
+    color: #2573c7;
 }

@@ -1,7 +1,8 @@
 import { post } from "./utils/api-layer.js";
-import { markedSelectedItem, renderRecentChat, selectItem, setupNewChatButton } from "./ui/menu-utils.js";
-import { settings } from "./ui/panel.js";
-import { appendMessage, setupAutoResize, setupClickHandler, setupToggle } from "./ui/ui-handler.js";
+import { markedSelectedItem, renderRecentChat, selectItem, setupNewChatButton } from "./home/menu-utils.js";
+import { settings } from "./home/panel.js";
+import { appendMessage, setupAutoResize, setupClickHandler, setupToggle } from "./home/ui-handler.js";
+import { setupLogoutButton } from "./home/logout.js";
 
 let selectedChat = null;
 let streaming = false;
@@ -14,9 +15,10 @@ document.addEventListener('DOMContentLoaded', async () => {
     const promptInput = document.getElementById('promptInput');
     const resultOutput = document.getElementById('resultOutput');
     const loadingIndicator = document.getElementById('loadingIndicator');
-
+    
+    setupLogoutButton();
     setupNewChatButton();
-    setupAutoResize(document.getElementById('promptInput'));
+    setupAutoResize(promptInput);
     setupClickHandler(handleSend);
     setupToggle();
     // selectedChat 설정까지 기다림

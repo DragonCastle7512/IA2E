@@ -35,6 +35,12 @@ router.post('/login', async (req, res) => {
     return res.status(200).json({message: "로그인 성공"});
 });
 
+/* api/logout */
+router.delete('/logout', (req, res) => {
+    res.clearCookie('access_token', { path: '/'});
+    return res.status(200).json({message: '로그아웃 되었습니다'});
+});
+
 /* api/signup */
 router.post('/signup', async (req, res) => {
     const { email, password, passwordCheck } = req.body;

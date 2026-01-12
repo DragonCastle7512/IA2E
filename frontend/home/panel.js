@@ -31,7 +31,7 @@ document.addEventListener('DOMContentLoaded', async () => {
             console.error(e)
         }
     }
-    const DEFAULT_TEMPLATES_URL = '/ui/templates'
+    const DEFAULT_TEMPLATES_URL = '/home/templates'
     const apiKeyTemplate = await loadTemplate(`${DEFAULT_TEMPLATES_URL}/api-key-template.html`);
     const themeTemplate = await loadTemplate(`${DEFAULT_TEMPLATES_URL}/theme-template.html`);
     const aiCustomTemplate = await loadTemplate(`${DEFAULT_TEMPLATES_URL}/ai-custom-template.html`);

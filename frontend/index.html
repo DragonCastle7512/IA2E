@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>IA2E</title>
     <link rel="stylesheet" href="style.css">
-    <link rel="stylesheet" href="/ui/setting-modal.css">
+    <link rel="stylesheet" href="/home/setting-modal.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css" integrity="sha512-2SwdPD6INVrV/lHTZbO2nodKhrnDdJK9/kg2XD1r9uGqPo1cUbujc+IYdlYdEErWNu69gVcYgdxlmVmzTWnetw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
     <link href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" rel="stylesheet" />
     <link href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/plugins/toolbar/prism-toolbar.min.css" rel="stylesheet" />
@@ -80,14 +80,15 @@
         <button id="closePanelBtn" class="close-btn"><i class="fa-solid fa-xmark"></i></button>
     </div>
 
-    <div class="login-btn">
-        <a href="/login">로그인</button>
+    <div class="login-layout">
+         <a id="loginBtn" href="/login"><i class="fa-solid fa-arrow-right-from-bracket"></i> 로그아웃</a>
     </div>
     
     <script src="https://cdnjs.cloudflare.com/ajax/libs/dompurify/3.0.6/purify.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/marked/12.0.2/marked.min.js"></script>
     <script src="conf/prism.js"></script>
-    <script src="ui/panel.js" type="module"></script>
+    <script src="home/logout.js" type="module"></script>
+    <script src="home/panel.js" type="module"></script>
     <script src="script.js" type="module"></script>
 </body>
 </html>
