@@ -67,8 +67,16 @@ document.addEventListener('DOMContentLoaded', async () => {
                     document.getElementById("aiCustomInput").value = settings.personalAI;
                     break;
                 case themeSettingBtn:
-                    document.getElementById("themeSelector").value = settings.theme;
+                    const themeSelector = document.getElementById("themeSelector");
+                    themeSelector.value = settings.theme;
                     document.getElementById("colorSelector").value = settings.color;
+                    themeSelector.addEventListener('change', function() {
+                        if(themeSelector.value == 'light') {
+                            document.body.classList.remove('dark-mode');   
+                        } else {
+                            document.body.classList.add('dark-mode');
+                        }
+                    });
                     break;
                 case apiKeySettingBtn:
                     document.getElementById("geminiApiKey").value = settings.geminiKey;

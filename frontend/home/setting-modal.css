@@ -1,9 +1,9 @@
-/* 🌟🌟 플로팅 패널 스타일 🌟🌟 */
+@import "../theme.css";
 .fixed-panel {
     position: fixed; 
     height: auto;
-    background-color: #ffffff;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    background-color: var(--bg-content);
+    box-shadow: 0 4px 12px var(--shadow-light);
     z-index: 1050;
     box-sizing: border-box;
     border-radius: 20px;
@@ -11,7 +11,6 @@
     transition: opacity 0.3s ease-out;
 }
 
-/* 🌟 패널 숨기기 (왼쪽으로 밀어냄) */
 .fixed-panel.hidden {
     opacity: 0; 
     pointer-events: none; 
@@ -28,6 +27,7 @@
     background: none;
     cursor: pointer;
     font-size: 18px;
+    color: var(--text-main);
 }
 .setting-content {
     margin-top: 10px;
@@ -39,7 +39,9 @@
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     padding: 8px;
     resize: none;
-    border: 1px solid #b7b7b79f; 
+    background-color: var(--bg-selection);
+    color: var(--text-main);
+    border: 1px solid var(--border-main);
     border-radius: 10px;
     width: 100%;
     max-height: 100px;
@@ -48,7 +50,7 @@
 #aiCustomInput:focus {
     outline: none;
     border: 1px solid #5c5c5c;
-    border-color: #ddd;
+    border-color: var(--primary);
 }
 #aiCustomInput::-webkit-scrollbar {
     display: none;
@@ -60,7 +62,7 @@
  /* 설명 텍스트 */
 .description {
     font-size: 0.9em;
-    color: #888;
+    color: var(--text-sub);
     margin-top: 10px;
     line-height: 1.4;
 }
@@ -75,36 +77,38 @@
     margin-top: 0;
     margin-bottom: 15px;
     font-size: 1.1em;
-    color: #333;
+    color: var(--text-main);
 }
 
 /* API 키 입력 그룹 레이아웃 */
 .input-group-api {
     display: flex;
-    flex-direction: column; /* 세로로 나열 */
-    gap: 15px; /* 입력 필드 간격 */
+    flex-direction: column;
+    gap: 15px;
     margin-bottom: 20px;
 }
 
 .input-group-api label {
     font-weight: 600;
-    color: #555;
+    color: var(--text-main);
     margin-bottom: 5px;
-    display: block; /* label 아래 input이 오도록 */
+    display: block;
 }
 
 /* 입력 필드 기본 스타일 */
 .input-group-api input[type="text"] {
     width: 100%;
     padding: 10px;
-    border: 1px solid #ccc;
+    background-color: var(--bg-selection);
+    color: var(--text-main);
+    border: 1px solid var(--border-main);
     border-radius: 6px;
     box-sizing: border-box;
     transition: border-color 0.2s;
 }
 
 .input-group-api input[type="text"]:focus {
-    border-color: #007bff;
+    border-color: var(--primary);
     outline: none;
 }
 
@@ -117,7 +121,7 @@
 #theme-setting-content h3 {
     margin-top: 0;
     margin-bottom: 15px;
-    color: #333;
+    color: var(--text-main);
 }
 
 /* 테마/색상 섹션 그룹 */
@@ -135,23 +139,24 @@
     font-size: 1em;
     margin-top: 0;
     margin-bottom: 5px;
-    color: #333;
+    color: var(--text-main);
 }
 
 /* Select 박스 스타일 */
 .theme-section select {
     width: 100%;
     padding: 10px;
-    border: 1px solid #ccc;
     border-radius: 6px;
-    background-color: #fff;
-    appearance: none; /* 기본 OS 스타일 제거 */
+    background-color: var(--bg-selection);
+    color: var(--text-main);
+    border: 1px solid var(--border-main);
+    appearance: none;
     -webkit-appearance: none;
     -moz-appearance: none;
     cursor: pointer;
 }
 
 .theme-section select:focus {
-    border-color: #007bff;
+    border-color: var(--primary);
     outline: none;
 }

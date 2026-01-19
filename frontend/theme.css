@@ -1,0 +1,69 @@
+:root {
+    /* 배경색 (Backgrounds) */
+    --bg-main: #f4f7f9;
+    --bg-content: #ffffff;
+    --bg-sidebar: #f5fdff55;
+    --bg-sidebar-hover: #f1f3f4;
+    --bg-sidebar-active: #e6f2ff;
+    --bg-msg-user: #e9e9e9b4;
+    --bg-code: #fdfdfd;
+    --bg-inline-code: #f0f0f0;
+    --bg-table-header: #e6f3fa;
+    --bg-table-even: #fbfbfb;
+    --bg-selection: #fff;
+
+    /* 텍스트색 (Text Colors) */
+    --text-main: #333333;
+    --text-sub: #777777;
+    --text-muted: gray;
+    --text-link: #2573c7;
+    --text-table-header: #1a475a;
+    --text-code: #000000;
+    --text-inline-code: #444444;
+
+    /* 포인트 컬러 (Brand Colors) */
+    --primary: #007bff;
+    --disabled: #cccccc;
+
+    /* 테두리 및 기타 (Borders & Others) */
+    --border-main: #dddddd;
+    --border-light: #eeeeee;
+    --border-table-header: #c8e6e5;
+    --shadow-light: rgba(0, 0, 0, 0.05);
+    --shadow-table: rgba(0, 0, 0, 0.08);
+}
+
+body.dark-mode {
+    /* 배경색 (Backgrounds) */
+    --bg-main: #111111;    
+    --bg-content: #1e1e1e; 
+    --bg-sidebar: #181818;  
+    --bg-sidebar-hover: #2c2c2c;
+    --bg-sidebar-active: #333333;
+    --bg-msg-user: #2d2d2d; 
+    --bg-code: #272727;
+    --bg-inline-code: #333333;
+    --bg-table-header: #2d3748;
+    --bg-table-even: #252525;
+    --bg-selection: #111111;
+
+    /* 텍스트색 (Text Colors) */
+    --text-main: #e2e8f0;
+    --text-sub: #a0aec0;
+    --text-muted: #718096;
+    --text-link: #60a5fa; 
+    --text-table-header: #edf2f7;
+    --text-code: #f8f8f2; 
+    --text-inline-code: #e2e8f0;
+
+    /* 포인트 컬러 (Brand Colors) */
+    --primary: #5c697c;
+    --disabled: #4a5568; 
+
+    /* 테두리 및 기타 (Borders & Others) */
+    --border-main: #2d3748;
+    --border-light: #2d3748;
+    --border-table-header: #4a5568;
+    --shadow-light: rgba(0, 0, 0, 0.4);
+    --shadow-table: rgba(0, 0, 0, 0.6);
+}
