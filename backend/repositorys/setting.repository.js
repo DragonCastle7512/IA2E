@@ -22,6 +22,13 @@ class SettingRepository {
         });
         return newSetting.toJSON();
     }
+
+    async updateTheme(value, id) {
+        return await this.Setting.update(
+            { theme: value },
+            { where: { member_id: id }}
+        )
+    }
 }
 
 module.exports = SettingRepository;

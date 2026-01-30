@@ -13,6 +13,11 @@ export let settings = {};
     }
     settings.geminiKey = "";
     settings.mistralKey = "";
+    if(settings.theme == 'light') {
+        document.body.classList.remove('dark-mode');   
+    } else {
+        document.body.classList.add('dark-mode');
+    }
 })();
 
 document.addEventListener('DOMContentLoaded', async () => {
@@ -101,12 +106,19 @@ document.addEventListener('DOMContentLoaded', async () => {
                         value: settings.personalAI
                     });
                 } catch(err) {
-                    console.log(err)
+                    console.error(err)
                 }
                 break;
             case themeSettingBtn:
                 settings.theme = document.getElementById("themeSelector").value;
                 settings.color = document.getElementById("colorSelector").value;
+                try {
+                    await put('/setting/theme', {
+                        value: settings.theme
+                    });
+                } catch(err) {
+                    console.error(err);
+                }
                 break;
             case apiKeySettingBtn:
                 settings.geminiKey = document.getElementById("geminiApiKey").value;
