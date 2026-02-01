@@ -8,9 +8,23 @@ class ChatMessageRepository {
             where: {
                 chat_id: chatId
             }, 
-            order: [['create_at', 'ASC']]
+            order: [['create_at', 'ASC']],
+            raw: true
         });
-        return messages.map(message => message.toJSON());
+        return messages;
+    }
+    
+    async findRecentMessage(chatId) {
+        const messages = await this.ChatMessage.findAll({
+            where: { 
+                chat_id: chatId
+            },
+            order: [['create_at', 'DESC']],
+            limit: 10,
+            attributes: ['is_user', 'content'],
+            raw: true
+        });
+        return messages;
     }
 
     async createMessage(message) {

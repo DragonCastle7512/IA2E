@@ -63,8 +63,11 @@ document.addEventListener('DOMContentLoaded', async () => {
         // AI 응답 추가
         let aiMessageDiv = appendMessage('생각 중...', false, true);
         try {
+            //settings.personalAI
             const response = await post("/fetch", {
-                prompt: settings.personalAI+prompt
+                prompt: prompt,
+                chatId: selectedChat,
+                myInstruction: settings.personalAI
             });
 
             if (!response.ok) {
