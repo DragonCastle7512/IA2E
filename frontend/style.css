@@ -5,6 +5,14 @@
     padding: 0;
     box-sizing: border-box;
 }
+
+body.dark-mode a {
+    color: #66D9EF;
+}
+body.dark-mode a:visited {
+    color: #AE81FF;
+}
+
 html, body {
     height: 100%;
     -webkit-font-smoothing: antialiased;
@@ -305,6 +313,8 @@ body {
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     flex-grow: 1;
     padding: 15px;
+    background-color: var(--bg-sidebar-hover);
+    color: var(--bg-text);
     border: 1px solid var(--border-main);
     border-radius: 30px;
     resize: none;
@@ -316,8 +326,8 @@ body {
 }
 #promptInput:focus {
     outline: none;
-    border: 1px solid var(--text-main);
-    border-color: #ddd;
+    border: 1px solid var(--border-main);
+    border-color: var(--border-main);
 }
 #promptInput::-webkit-scrollbar {
     display: none;
@@ -386,5 +396,9 @@ body.dark-mode code[class*="language-"] {
 }
 
 body.dark-mode .token.string {
+    background-color: transparent;
+}
+
+body.dark-mode .token.operator {
     background-color: transparent;
 }
