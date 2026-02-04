@@ -6,10 +6,10 @@
     box-sizing: border-box;
 }
 
-body.dark-mode a {
+[data-theme="dark"] a {
     color: #66D9EF;
 }
-body.dark-mode a:visited {
+[data-theme="dark"] a:visited {
     color: #AE81FF;
 }
 
@@ -388,17 +388,17 @@ body {
     color: var(--text-link);
 }
 
-body.dark-mode pre[class*="language-"],
-body.dark-mode code[class*="language-"] {
+[data-theme="dark"] pre[class*="language-"],
+[data-theme="dark"] code[class*="language-"] {
     background: var(--bg-code);
     color: #ccc;
     text-shadow: none;
 }
 
-body.dark-mode .token.string {
+pre[class*="language-"] .token.string {
     background-color: transparent;
 }
 
-body.dark-mode .token.operator {
+pre[class*="language-"] .token.operator {
     background-color: transparent;
 }

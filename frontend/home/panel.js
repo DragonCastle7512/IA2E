@@ -13,11 +13,8 @@ export let settings = {};
     }
     settings.geminiKey = "";
     settings.mistralKey = "";
-    if(settings.theme == 'light') {
-        document.body.classList.remove('dark-mode');   
-    } else {
-        document.body.classList.add('dark-mode');
-    }
+    document.body.dataset.theme = settings.theme;
+    document.body.dataset.color = settings.color;
 })();
 
 document.addEventListener('DOMContentLoaded', async () => {
@@ -74,14 +71,16 @@ document.addEventListener('DOMContentLoaded', async () => {
                 case themeSettingBtn:
                     const themeSelector = document.getElementById("themeSelector");
                     themeSelector.value = settings.theme;
-                    document.getElementById("colorSelector").value = settings.color;
-                    themeSelector.addEventListener('change', function() {
-                        if(themeSelector.value == 'light') {
-                            document.body.classList.remove('dark-mode');   
-                        } else {
-                            document.body.classList.add('dark-mode');
-                        }
+                    themeSelector.addEventListener('change', (e) => {
+                        document.body.dataset.theme = e.target.value;
                     });
+                    const colorSelector = document.getElementById("colorSelector");
+                    colorSelector.value = settings.color;
+                    colorSelector.addEventListener('change', (e) => {
+                        document.body.dataset.color = e.target.value;
+                    });
+                    console.log(document.body.dataset.theme);
+                    console.log(document.body.dataset.color);
                     break;
                 case apiKeySettingBtn:
                     document.getElementById("geminiApiKey").value = settings.geminiKey;

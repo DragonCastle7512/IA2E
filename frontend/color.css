@@ -1,0 +1,21 @@
+:root { --bg-msg-user: #e9e9e9b4; }
+
+/* --- 라이트 모드 컬러 정의 --- */
+[data-theme="light"][data-color="red"]    { --bg-msg-user: #fddfdf; }
+[data-theme="light"][data-color="orange"] { --bg-msg-user: #fae8c9; }
+[data-theme="light"][data-color="yellow"] { --bg-msg-user: #f8f5d5; }
+[data-theme="light"][data-color="green"]  { --bg-msg-user: #dbf5dd; }
+[data-theme="light"][data-color="blue"]   { --bg-msg-user: #e8f1ff; }
+[data-theme="light"][data-color="purple"] { --bg-msg-user: #f5e6f8; }
+[data-theme="light"][data-color="pink"]   { --bg-msg-user: #ffeaf1; }
+[data-theme="light"][data-color="gray"]   { --bg-msg-user: #e9e9e9b4; }
+
+/* --- 다크 모드 컬러 정의 --- */
+[data-theme="dark"][data-color="red"]    { --bg-msg-user: #572828; }
+[data-theme="dark"][data-color="orange"] { --bg-msg-user: #705223; }
+[data-theme="dark"][data-color="yellow"] { --bg-msg-user: #696436; }
+[data-theme="dark"][data-color="green"]  { --bg-msg-user: #2e422f; }
+[data-theme="dark"][data-color="blue"]   { --bg-msg-user: #2f3858b4; }
+[data-theme="dark"][data-color="purple"] { --bg-msg-user: #422547; }
+[data-theme="dark"][data-color="pink"]   { --bg-msg-user: #5e2f3f; }
+[data-theme="dark"][data-color="gray"]   { --bg-msg-user: #2d2d2d; }
