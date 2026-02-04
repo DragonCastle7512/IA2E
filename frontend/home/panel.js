@@ -112,8 +112,9 @@ document.addEventListener('DOMContentLoaded', async () => {
                 settings.theme = document.getElementById("themeSelector").value;
                 settings.color = document.getElementById("colorSelector").value;
                 try {
-                    await put('/setting/theme', {
-                        value: settings.theme
+                    await put('/setting/appearance', {
+                        theme: settings.theme,
+                        color: settings.color
                     });
                 } catch(err) {
                     console.error(err);

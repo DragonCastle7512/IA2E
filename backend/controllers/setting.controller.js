@@ -18,10 +18,10 @@ router.get('/setting', async (req, res) => {
     res.status(200).json(response);
 })
 
-/* api/setting/theme */
-router.put('/setting/theme', async (req, res) => {
-    const { value } = req.body;
-    const response = await settingRepository.updateTheme(value, req.user.id);
+/* api/setting/appearance */
+router.put('/setting/appearance', async (req, res) => {
+    const { theme, color } = req.body;
+    const response = await settingRepository.updateAppearance(theme, color, req.user.id);
     res.status(200).json(response);
 })
 
