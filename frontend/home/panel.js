@@ -4,6 +4,7 @@ import { setupAutoResize } from "./ui-handler.js";
 export let settings = {};
 (async function getSetting() {
     const json = await (await get('/setting')).json();
+    const keys = await (await get('/keys')).json();
     const res = json[0];
 
     settings = {
@@ -11,8 +12,8 @@ export let settings = {};
         theme: res.theme || "light",
         color: res.chat_color || "gray"
     }
-    settings.geminiKey = "";
-    settings.mistralKey = "";
+    settings.geminiKey = keys.gemini || '키를 입력해주세요';
+    settings.mistralKey = keys.mistral || '키를 입력해주세요';
     document.body.dataset.theme = settings.theme;
     document.body.dataset.color = settings.color;
 })();
@@ -79,12 +80,10 @@ document.addEventListener('DOMContentLoaded', async () => {
                     colorSelector.addEventListener('change', (e) => {
                         document.body.dataset.color = e.target.value;
                     });
-                    console.log(document.body.dataset.theme);
-                    console.log(document.body.dataset.color);
                     break;
                 case apiKeySettingBtn:
-                    document.getElementById("geminiApiKey").value = settings.geminiKey;
-                    document.getElementById("mistralApiKey").value = settings.mistralKey;
+                    document.getElementById("geminiApiKey").placeholder = settings.geminiKey;
+                    document.getElementById("mistralApiKey").placeholder = settings.mistralKey;
                     break;
             }
         });
@@ -121,8 +120,26 @@ document.addEventListener('DOMContentLoaded', async () => {
                 }
                 break;
             case apiKeySettingBtn:
-                settings.geminiKey = document.getElementById("geminiApiKey").value;
-                settings.mistralKey = document.getElementById("mistralApiKey").value;
+                const geminiKey = document.getElementById("geminiApiKey");
+                const mistralKey = document.getElementById("mistralApiKey");
+                const condition = (key) => (!key || key.length >= 25) ? true : false;
+                try {
+                    if(!condition(geminiKey.value) || !condition(mistralKey.value)) {
+                        alert('유효하지 않은 키입니다');
+                    } else {
+                        const response = await put('/keys', {
+                            geminiKey: geminiKey.value,
+                            mistralKey: mistralKey.value
+                        });
+                        const json = await response.json();
+                        if(json.gemini) settings.geminiKey = json.gemini;
+                        if(json.mistral) settings.mistralKey = json.mistral;
+                    }
+                } catch(err) {
+                    console.error(err);
+                }
+                geminiKey.value = '';
+                mistralKey.value = '';
                 break;
         }
     }

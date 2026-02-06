@@ -7,11 +7,17 @@ module.exports = (sequelize, DataTypes) => {
         },
         member_id: {
             type: DataTypes.UUID,
+            unique: 'unique_member_key_combination',
             allowNull: false
         },
         key: {
             type: DataTypes.TEXT,
             unique: true,
+            allowNull: false
+        },
+        key_type: {
+            type: DataTypes.TEXT,
+            unique: 'unique_member_key_combination',
             allowNull: false
         },
         create_at: {
