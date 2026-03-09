@@ -1,6 +1,6 @@
-document.addEventListener('DOMContentLoaded', () => {
-    const CORE_FILES = [
-        "prism.min.js",
+document.addEventListener('DOMContentLoaded', async () => {
+    const CORE = "prism.min.js";
+    const PLUGINS = [
         "plugins/toolbar/prism-toolbar.min.js",
         "plugins/copy-to-clipboard/prism-copy-to-clipboard.min.js"
     ];
@@ -12,20 +12,28 @@ document.addEventListener('DOMContentLoaded', () => {
     ];
 
     const cdnBase = "https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/";
-    const head = document.head;
 
     const loadScript = (src) => {
-        const script = document.createElement('script');
-        script.src = src;
-        head.appendChild(script);
+        return new Promise((resolve, reject) => {
+            const script = document.createElement('script');
+            script.src = src;
+            script.onload = resolve;
+            script.onerror = reject;
+            document.head.appendChild(script);
+        });
     };
 
-    CORE_FILES.forEach(file => {
-        loadScript(cdnBase + file);
-    });
-    
-    LANGUAGES.forEach(lang => {
-        const scriptPath = cdnBase + `components/prism-${lang}.min.js`;
-        loadScript(scriptPath);
-    });
+    try {
+        await loadScript(cdnBase + CORE);
+
+        const otherScripts = [
+            ...PLUGINS.map(file => cdnBase + file),
+            ...LANGUAGES.map(lang => `${cdnBase}components/prism-${lang}.min.js`)
+        ];
+
+        await Promise.all(otherScripts.map(src => loadScript(src)));
+
+    } catch (error) {
+        console.error("Prism 로딩 중 에러 발생:", error);
+    }
 });
