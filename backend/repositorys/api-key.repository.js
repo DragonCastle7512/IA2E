@@ -26,7 +26,8 @@ class ApiKeyRepository {
         try {
             return await this.ApiKeyRepository.findAll({
                 where: { member_id: id },
-                attributes: ['key_type', 'key']
+                attributes: ['key_type', 'key'],
+                order: [['key_type', 'ASC']],
             })
         } catch(err) {
             console.log(err);

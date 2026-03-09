@@ -1,10 +1,14 @@
 const { GoogleGenAI } = require("@google/genai");
+const { Mistral } = require('@mistralai/mistralai');
 const { Router } = require("express");
 const router = Router();
 
-const { ChatMessage } = require("../models");
+const { decrypt } = require("../utils/crypt-encoder");
+const { ChatMessage, ApiKey } = require("../models");
 const ChatMessageRepository = require("../repositorys/chat-message.repository");
 const messageRepositoy = new ChatMessageRepository(ChatMessage);
+const ApiKeyRepository = require("../repositorys/api-key.repository");
+const apiKeyRepository = new ApiKeyRepository(ApiKey);
 
 const systemInstructions = {
     role: "system",
@@ -17,51 +21,111 @@ const systemInstructions = {
     ]
 };
 
-/* api/fetch */
-router.post('/fetch', async (req, res) => {
-    const { myInstruction, prompt, chatId } = req.body;
+async function callGeminiChat(key, info, res) {
+    const gemini = new GoogleGenAI({ apiKey: key });
 
-    const gemini = new GoogleGenAI({
-        apiKey: process.env.GEMINI_API_KEY
-    });
+    const formattedHistory = info.history
+        .reverse()
+        .map(msg => ({
+            role: msg.is_user ? 'user' : 'model', 
+            parts: [{ text: msg.content }]
+        }));
+    const current = {
+        role: 'user',
+        parts: [{ text: info.prompt }]
+    }
     try {
-        const history = await messageRepositoy.findRecentMessage(chatId);
-        const formattedHistory = history
-            .reverse()
-            .map(msg => ({
-                role: msg.is_user ? 'user' : 'model', 
-                parts: [{ text: msg.content }]
-            }));
-        const current = {
-            role: 'user',
-            parts: [{ text: prompt }]
-        }
-        const newSystemInstructions = {...systemInstructions, parts:[...systemInstructions.parts, { text: myInstruction }]}
+        //model: gemini-2.5-flash gemini-3-flash-preview gemini-3.1-flash-lite-preview
         const response = await gemini.models.generateContentStream({
             model: "gemini-2.5-flash",
             contents: [...formattedHistory, current],
             config: {
-                systemInstruction: newSystemInstructions
-            } 
-        });
-        res.writeHead(200, {
-            'Content-Type': 'text/plain; charset=utf-8',
-            'Transfer-Encoding': 'chunked'
+                systemInstruction: info.systemInstruction
+            }
         });
 
         for await (const chunk of response) {
             res.write(chunk.text); 
         }
 
-        res.end();
-    } catch (error) {
-        console.error("Gemini API 호출 중 오류 발생:", error);
-        if (!res.headersSent) {
-             res.status(500).send("Gemini API 호출에 실패했습니다.");
-        } else {
-             res.end();
+        return { ok: true };
+    } catch(err) {
+        return { ok: false };
+    }
+}
+
+async function callMistralChat(key, info, res) {
+    const mistral = new Mistral({ apiKey: key });
+    const formattedHistory = info.history
+        .reverse()
+        .filter(msg => msg.content && String(msg.content).trim().length > 0) 
+        .map(msg => ({
+            role: msg.is_user ? 'user' : 'assistant',
+            content: String(msg.content).trim()
+        }));
+
+    const current = {
+        role: 'user',
+        content: info.prompt
+    };
+
+    const mistralSystemContent = info.systemInstruction.parts
+    .map(part => part.text)
+    .join('\n');
+
+    const systemMessage = {
+        role: "system",
+        content: mistralSystemContent
+    };
+
+    try {
+        const response = await mistral.chat.stream({
+            model: "mistral-large-latest",
+            messages: [systemMessage, ...formattedHistory, current],
+        });
+
+        for await (const chunk of response) {
+            const content = chunk.data.choices[0]?.delta?.content || "";
+            //console.log(chunk.choices[0].delta.content);
+            if (content) {
+                res.write(content);
+            }
         }
     }
+    catch(err) {
+        console.log(err);
+    }
+}
+
+/* api/fetch */
+router.post('/fetch', async (req, res) => {
+    const { myInstruction, prompt, chatId } = req.body;
+
+    const keys = await apiKeyRepository.findAllKeys(req.user.id);
+    try {
+        const history = await messageRepositoy.findRecentMessage(chatId);
+        const newSystemInstructions = {...systemInstructions, parts:[...systemInstructions.parts, { text: myInstruction }]}
+        const info = {
+            history: history,
+            systemInstruction: newSystemInstructions,
+            prompt: prompt
+        };
+
+        res.writeHead(200, {
+            'Content-Type': 'text/plain; charset=utf-8',
+            'Transfer-Encoding': 'chunked'
+        });
+        const status = await callGeminiChat(decrypt(keys[0].key), info, res);
+        if(!status.ok) {
+            console.log('gemini key 유효하지 않음');
+            await callMistralChat(decrypt(keys[1].key), info, res);
+        }
+        
+    } catch (error) {
+        console.error("Gemini API 호출 중 오류 발생:", error);
+        res.write('호출 중 오류가 발생했습니다.');
+    }
+    res.end();
 })
 
 module.exports = router
