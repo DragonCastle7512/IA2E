@@ -40,7 +40,9 @@ router.post('/fetch', async (req, res) => {
         const response = await gemini.models.generateContentStream({
             model: "gemini-2.5-flash",
             contents: [...formattedHistory, current],
-            system_instruction: newSystemInstructions
+            config: {
+                systemInstruction: newSystemInstructions
+            } 
         });
         res.writeHead(200, {
             'Content-Type': 'text/plain; charset=utf-8',
