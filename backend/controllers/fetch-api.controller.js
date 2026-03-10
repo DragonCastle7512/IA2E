@@ -80,7 +80,7 @@ async function callMistralChat(key, info, res) {
 
     try {
         const response = await mistral.chat.stream({
-            model: "mistral-large-latest",
+            model: "mistral-small-latest",
             messages: [systemMessage, ...formattedHistory, current],
         });
 

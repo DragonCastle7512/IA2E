@@ -1,0 +1,36 @@
+<h3>AI 모델 변경</h3>
+<div class="setting-content">
+    <div class="theme-section">
+        <h5>AI</h5>
+        <div class="model-div">
+            <div class="model-radio">
+                <input type="radio" id="geminiRadio" name="ai-model" value="gemini">&nbsp;
+                <label for="geminiRadio">Gemini</label>
+            </div>
+            <div class="model-radio">
+                <input type="radio" id="mistralRadio" name="ai-model" value="mistral">&nbsp;
+                <label for="mistralRadio">Mistral</label>
+            </div>
+        </div>
+    </div>
+    <div class="theme-section">
+        <h5>Gemini 모델</h5>
+        <select id="geminiModelSelector">
+            <option value="gemini-2.5-flash">gemini-2.5-flash</option>
+            <option value="gemini-2.5-flash-lite">gemini-2.5-flash-lite</option>
+            <option value="gemini-3-flash-preview">gemini-3-flash-preview</option>
+            <option value="gemini-3.1-flash-lite-preview">gemini-3.1-flash-lite-preview</option>
+        </select>
+    </div>
+    <div class="theme-section">
+        <h5>Mistral 모델</h5>
+        <select id="mistralModelSelector">
+            <option value="ministral-3b-latest">ministral-3b</option>
+            <option value="ministral-8b-latest">ministral-8b</option>
+            <option value="ministral-14b-latest">ministral-14b</option>
+            <option value="mistral-small-latest">mistral-small</option>
+            <option value="mistral-large-latest">mistral-large</option>
+        </select>
+    </div>
+    <p class="description">최대 사용량 도달 시 다른 모델을 사용해보세요!</p>
+</div>

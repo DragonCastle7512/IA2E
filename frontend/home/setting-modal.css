@@ -142,6 +142,14 @@
     color: var(--text-main);
 }
 
+.model-div {
+    display: flex;
+}
+.model-radio {
+    display: flex;
+    margin-right: 20px;
+}
+
 /* Select 박스 스타일 */
 .theme-section select {
     width: 100%;

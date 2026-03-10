@@ -10,7 +10,10 @@ export let settings = {};
     settings = {
         personalAI: res.personal_ai || "",
         theme: res.theme || "light",
-        color: res.chat_color || "gray"
+        color: res.chat_color || "gray",
+        aiModel: res.model || "gemini",
+        geminiModel: res.gemini_model || "gemini-2.5-flash",
+        mistralModel: res.mistral_model || "mistral-large-latest",
     }
     settings.geminiKey = keys.gemini || '키를 입력해주세요';
     settings.mistralKey = keys.mistral || '키를 입력해주세요';
@@ -19,6 +22,7 @@ export let settings = {};
 })();
 
 document.addEventListener('DOMContentLoaded', async () => {
+    const modelSettingBtn = document.getElementById('modelSettingBtn');
     const apiKeySettingBtn = document.getElementById('apiKeySettingBtn');
     const aiSettingBtn = document.getElementById('aiSettingBtn');
     const themeSettingBtn = document.getElementById('themeSettingBtn');
@@ -35,6 +39,7 @@ document.addEventListener('DOMContentLoaded', async () => {
         }
     }
     const DEFAULT_TEMPLATES_URL = '/home/templates'
+    const modelTemplate = await loadTemplate(`${DEFAULT_TEMPLATES_URL}/model-template.html`);
     const apiKeyTemplate = await loadTemplate(`${DEFAULT_TEMPLATES_URL}/api-key-template.html`);
     const themeTemplate = await loadTemplate(`${DEFAULT_TEMPLATES_URL}/theme-template.html`);
     const aiCustomTemplate = await loadTemplate(`${DEFAULT_TEMPLATES_URL}/ai-custom-template.html`);
@@ -85,15 +90,22 @@ document.addEventListener('DOMContentLoaded', async () => {
                     document.getElementById("geminiApiKey").placeholder = settings.geminiKey;
                     document.getElementById("mistralApiKey").placeholder = settings.mistralKey;
                     break;
+                case modelSettingBtn:
+                    document.getElementsByClassName("model-radio")[(settings.aiModel === "gemini") ? 0 : 1].querySelector('input').checked = true;
+                    document.getElementById("geminiModelSelector").value = settings.geminiModel;
+                    document.getElementById("mistralModelSelector").value = settings.mistralModel;
+                    break;
             }
         });
     }
+    // 'AI 모델 변경' 클릭 시 
+    addPanelListener(modelSettingBtn, modelTemplate);
     // 'API 키 등록' 클릭 시
     addPanelListener(apiKeySettingBtn, apiKeyTemplate);
     // '테마' 클릭 시
     addPanelListener(themeSettingBtn, themeTemplate);
     // '맞춤형 AI' 클릭 시
-    addPanelListener(aiSettingBtn, aiCustomTemplate);
+    addPanelListener(aiSettingBtn, aiCustomTemplate);   
 
     async function confirmApply() {
         switch(selectedPanel) {
@@ -140,6 +152,8 @@ document.addEventListener('DOMContentLoaded', async () => {
                 }
                 geminiKey.value = '';
                 mistralKey.value = '';
+                break;
+            case modelSettingBtn:
                 break;
         }
     }
