@@ -20,6 +20,18 @@ module.exports = (sequelize, DataTypes) => {
         },
         personal_ai: {
             type: DataTypes.TEXT
+        },
+        ai_model: {
+            type: DataTypes.STRING(10),
+            defaultValue: 'gemini'
+        },
+        gemini_model: {
+            type: DataTypes.STRING(30),
+            defaultValue: 'gemini-2.5-flash'
+        },
+        mistral_model: {
+            type: DataTypes.STRING(30),
+            defaultValue: 'mistral-large-latest'
         }
     }, {
         tableName: 'SETTING',

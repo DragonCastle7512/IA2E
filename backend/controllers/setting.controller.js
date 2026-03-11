@@ -25,4 +25,11 @@ router.put('/setting/appearance', async (req, res) => {
     res.status(200).json(response);
 })
 
+/* api/setting/appearance */
+router.put('/setting/model', async (req, res) => {
+    const { aiModel, geminiModel, mistralModel } = req.body;
+    const response = await settingRepository.updateModel(aiModel, geminiModel, mistralModel, req.user.id);
+    res.status(200).json(response);
+})
+
 module.exports = router

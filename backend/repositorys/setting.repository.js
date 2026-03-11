@@ -30,6 +30,13 @@ class SettingRepository {
         )
     }
 
+    async updateModel(ai, gemini, mistral, id) {
+        return await this.Setting.update(
+            { ai_model: ai, gemini_model: gemini, mistral_model: mistral },
+            { where: { member_id: id } }
+        )
+    }
+
 }
 
 module.exports = SettingRepository;

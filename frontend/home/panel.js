@@ -11,7 +11,7 @@ export let settings = {};
         personalAI: res.personal_ai || "",
         theme: res.theme || "light",
         color: res.chat_color || "gray",
-        aiModel: res.model || "gemini",
+        aiModel: res.ai_model || "gemini",
         geminiModel: res.gemini_model || "gemini-2.5-flash",
         mistralModel: res.mistral_model || "mistral-large-latest",
     }
@@ -154,6 +154,19 @@ document.addEventListener('DOMContentLoaded', async () => {
                 mistralKey.value = '';
                 break;
             case modelSettingBtn:
+                const selectedValue = document.querySelector('input[name="ai-model"]:checked')?.value;
+                settings.aiModel = selectedValue;
+                settings.geminiModel = document.getElementById("geminiModelSelector").value
+                settings.mistralModel = document.getElementById("mistralModelSelector").value
+                try {
+                    await put('/setting/model', {
+                        aiModel: settings.aiModel,
+                        geminiModel: settings.geminiModel,
+                        mistralModel: settings.mistralModel
+                    });
+                } catch(err) {
+                    console.error(err);
+                }
                 break;
         }
     }
