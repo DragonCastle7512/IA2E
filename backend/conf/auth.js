@@ -10,7 +10,8 @@ const authenticateToken = (req, res, next) => {
         '/api/login',
         '/api/signup',
         '/api/mail',
-        '/api/test'
+        '/api/test',
+        '/api/auth/refresh'
     ];
 
     // 하위 경로 전부 허용

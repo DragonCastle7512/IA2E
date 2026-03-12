@@ -13,6 +13,11 @@ module.exports = (sequelize, DataTypes) => {
         password: {
             type: DataTypes.STRING(100),
             allowNull: false
+        },
+        refresh_token: {
+            type: DataTypes.STRING(500),
+            allowNull: true,
+            unique: true
         }
     }, {
         tableName: 'MEMBER',

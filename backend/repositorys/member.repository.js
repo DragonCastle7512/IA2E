@@ -20,16 +20,24 @@ class MemberRepository {
         return memberResult.toJSON();
     }
 
-    async update(member) {
-        const memberResult = await this.Member.update(
+    async updateRefreshToken(memberId, refreshToken) {
+        await this.Member.update(
             {
-                password: member.password
+                refresh_token: refreshToken
             },
             {
-                where: { email: member.email }
+                where: { id: memberId }
             }
         );
-        return memberResult.toJSON();
+    }
+
+    async findRefreshToken(memberId) {
+        const refreshToken = await this.Member.findOne({
+            where: { id: memberId },
+            attributes: ['refresh_token'],
+        })
+        return refreshToken.toJSON();
+        
     }
 }
 module.exports = MemberRepository;
