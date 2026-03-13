@@ -40,6 +40,7 @@ body {
     flex-direction: column;
     padding: 20px;
     height: 100%;
+    z-index: 1000;
     transition: width 0.3s ease, padding 0.3s ease;
 }
 
@@ -92,6 +93,7 @@ body {
     cursor: pointer;
     color: var(--text-main);
     flex-shrink: 0;
+    width: 40px;
 }
 .menu-title {
     color: var(--text-muted);
