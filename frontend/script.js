@@ -8,6 +8,24 @@ let selectedChat = null;
 let streaming = false;
 export function setSelectedChat(chatId) {
     selectedChat = chatId;
+    const output = document.getElementsByClassName('input-area')[0];
+    const chat = document.getElementsByClassName('main-chat-area')[0];
+    if(chatId === null) {
+        const h1 = document.createElement('h1');
+        chat.style.height = '60%';
+        const target = document.getElementById('chat-title');
+        if(!target) {
+            h1.textContent = '무엇을 도와드릴까요?';
+            h1.id = 'chat-title';
+            output.before(h1);
+        }
+    }
+    else {
+        chat.style.height = '100%';
+        const target = document.getElementById('chat-title');
+        if(target)
+            target.remove();
+    }
 }
 export const getStreaming = () => streaming;
 

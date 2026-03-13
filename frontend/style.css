@@ -159,6 +159,8 @@ body {
     display: flex;
     flex-direction: column;
     margin: 0 auto;
+    /* height: 50%; */
+    transition: height 0.4s ease;
 }
 
 .main-chat-area h1 {
