@@ -12,9 +12,10 @@ const models = require('./models');
 const setupMiddleware = require('./conf/middleware');
 const setupRoutes = require('./routes');
 
+app.use(express.static(path.join(__dirname, '..', 'frontend')));
 setupMiddleware(app);
 setupRoutes(app);
-app.use(express.static(path.join(__dirname, '..', 'frontend')));
+
 
 dbPool.query('SELECT 1', (err) => {
     if (err) {

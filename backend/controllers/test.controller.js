@@ -4,7 +4,6 @@ const router = Router();
 
 /* api/test */
 router.get('/test', async (req, res) => {
-    const members = await Member.findAll()
-    res.json(members);
+    res.json({ ok: true });
 });
 module.exports = router

@@ -18,7 +18,7 @@ const authenticateToken = (req, res, next) => {
     const fullUrl = req.originalUrl.split('?')[0].replace(/\/$/, "");
 
     const isPublic = PUBLIC_URLS.some(prefix => fullUrl.startsWith(prefix));
-    const isStaticFile = /\.(js|css|png|jpg|jpeg|gif|ico|svg)$/i.test(fullUrl);
+    const isStaticFile = /\.(js|css|png|jpg|jpeg|gif|ico|svg|json)$/i.test(fullUrl);
     
     if (isPublic || isStaticFile) {
         return next();

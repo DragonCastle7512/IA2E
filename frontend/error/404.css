@@ -1,0 +1,72 @@
+/* 기본 스타일 리셋 */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Noto Sans KR', sans-serif;
+    background-color: #f4f7f6;
+    color: #333;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    text-align: center;
+}
+
+.error-container {
+    background-color: #fff;
+    padding: 50px 60px;
+    border-radius: 15px;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+    max-width: 500px;
+    width: 90%;
+}
+
+.error-code {
+    font-size: 120px;
+    font-weight: 900;
+    color: #ff6b6b;
+    line-height: 1;
+    margin-bottom: 20px;
+    letter-spacing: -5px;
+}
+
+.error-title {
+    font-size: 24px;
+    font-weight: 700;
+    margin-bottom: 15px;
+    color: #2c3e50;
+}
+
+.error-message {
+    font-size: 16px;
+    color: #7f8c8d;
+    line-height: 1.6;
+    margin-bottom: 35px;
+    word-break: keep-all;
+}
+
+.home-button {
+    display: inline-block;
+    padding: 12px 30px;
+    background-color: #3498db;
+    color: #fff;
+    text-decoration: none;
+    border-radius: 30px;
+    font-weight: 700;
+    font-size: 16px;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+    box-shadow: 0 4px 6px rgba(52, 152, 219, 0.3);
+}
+
+.home-button:hover {
+    background-color: #2980b9;
+    transform: translateY(-2px);
+}
+
+.home-button:active {
+    transform: translateY(1px);
+}

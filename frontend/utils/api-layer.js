@@ -6,11 +6,14 @@ const onSilentRefresh = async () => {
     if (silentRefreshTimeout) {
         clearTimeout(silentRefreshTimeout);
     }
+    const currentPath = window.location.pathname.replace(/\/$/, "");
+    if (currentPath === '/login' || currentPath === '/signup') {
+        return;
+    }
 
     try {
         const response = await fetch('/api/auth/refresh', { method: 'POST', credentials: 'include'});
-
-        if (response.status === 401 && window.location.pathname != '/login') {
+        if (response.status === 401) {
             window.location.href = '/login'
             return;
         }
