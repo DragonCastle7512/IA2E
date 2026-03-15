@@ -28,10 +28,18 @@ const onSilentRefresh = async () => {
 
 onSilentRefresh();
 
+const handleResponse = (response) => {
+    if (response.status === 429) {
+        window.location.href = '/error/429.html';
+        throw new Error('Too many requests'); 
+    }
+    return response;
+};
+
 async function get(url) {
     const response = await fetch(API_ENDPOINT + url);
 
-    return response;
+    return handleResponse(response);
 }
 
 async function post(url, obj) {
@@ -43,7 +51,7 @@ async function post(url, obj) {
         body: JSON.stringify(obj)
     });
 
-    return response;
+    return handleResponse(response);
 }
 
 async function put(url, obj) {
@@ -55,7 +63,7 @@ async function put(url, obj) {
         body: JSON.stringify(obj)
     });
     
-    return response; 
+    return handleResponse(response);
 }
 
 async function del(url) {
@@ -63,7 +71,7 @@ async function del(url) {
         method: 'DELETE',
     });
     
-    return response;
+    return handleResponse(response);
 }
 
 export { get, post, put, del };
