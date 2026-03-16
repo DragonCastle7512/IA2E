@@ -6,7 +6,6 @@ const port = 3000
 require('dotenv').config({ path: path.resolve(__dirname, '..', '.env') });
 
 /* DB 연결 */
-const dbPool = require('./conf/db');
 const models = require('./models');
 /* 미들웨어 및 라우터 등록 */
 const setupMiddleware = require('./conf/middleware');
@@ -16,13 +15,16 @@ app.use(express.static(path.join(__dirname, '..', 'frontend')));
 setupMiddleware(app);
 setupRoutes(app);
 
+(async () => {
+    try {
+        await models.initializeDatabase();
 
-dbPool.query('SELECT 1', (err) => {
-    if (err) {
-        console.error('DB 연결 실패!', err.stack);
-    } else {
-        console.log('DB 연결 풀 준비 완료.');
-        models.initializeDatabase();
-        app.listen(port, '0.0.0.0', () => console.log(`${port} 포트에서 서버 열림`))
+        app.listen(port, '0.0.0.0', () => {
+            console.log(`${port} 포트에서 서버 열림`);
+        });
+
+    } catch (err) {
+        console.error('DB 연결 또는 서버 시작 실패!', err);
+        process.exit(1);
     }
-});
+})();

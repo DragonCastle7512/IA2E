@@ -8,7 +8,19 @@ const ChatMessage = require('./chat-message.model');
 
 const sequelize = new Sequelize(process.env.DATABASE_URL, {
     dialect: 'postgres',
-    logging: false
+    logging: false,
+    pool: {
+        max: 5,
+        min: 0,
+        acquire: 30000,
+        idle: 10000
+    },
+    dialectOptions: {
+        ssl: {
+            ca: process.env.CA_CERTIFICATE,
+            rejectUnauthorized: true
+        }
+    }
 });
 
 //관계 매핑
@@ -30,14 +42,14 @@ models.initializeDatabase = async () => {
     try {
         // DB 연결 테스트
         await models.sequelize.authenticate();
-        console.log('✅ DB 연결 성공.');
+        console.log('DB 연결 성공.');
 
         // 테이블 동기화(업데이트 시 alter: true, 초기화 시 force: true)
         await models.sequelize.sync({ });
-        console.log('✅ DB 스키마 동기화 완료.');
+        console.log('DB 스키마 동기화 완료.');
         
     } catch (error) {
-        console.error('❌ DB 초기화 실패! 서버 시작을 중단합니다.', error.stack);
+        console.error('DB 초기화 실패! 서버 시작을 중단합니다.', error.stack);
         throw error; 
     }
 };
