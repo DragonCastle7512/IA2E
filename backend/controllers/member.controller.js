@@ -11,6 +11,11 @@ const memberRepository = new MemberRepository(Member);
 const settingRepository = new SettingRepository(Setting);
 const jwt = require('jsonwebtoken');
 
+const clearToken = (res) => {
+    res.clearCookie('access_token', { path: '/' });
+    res.clearCookie('refresh_token', { path: '/api/auth/refresh' });
+}
+
 /* api/login/info */
 router.get('/login/info', (req, res) => {
     const userId = req.user.id;
@@ -38,7 +43,7 @@ router.post('/login', async (req, res) => {
 
 /* api/logout */
 router.delete('/logout', (req, res) => {
-    res.clearCookie('access_token', { path: '/'});
+    clearToken(res);
     return res.status(200).json({message: '로그아웃 되었습니다'});
 });
 
@@ -82,10 +87,6 @@ router.post('/signup', async (req, res) => {
 /* api/auth/refresh */
 router.post('/auth/refresh', async (req, res) => {
     const refreshToken = req.cookies.refresh_token;
-    const clearToken = (res) => {
-        res.clearCookie('access_token', { path: '/' });
-        res.clearCookie('refresh_token', { path: '/api/auth/refresh' });
-    }
 
     if (!refreshToken) {
         clearToken(res);

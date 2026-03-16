@@ -23,6 +23,6 @@ dbPool.query('SELECT 1', (err) => {
     } else {
         console.log('DB 연결 풀 준비 완료.');
         models.initializeDatabase();
-        app.listen(port, () => console.log(`${port} 포트에서 서버 열림`))
+        app.listen(port, '0.0.0.0', () => console.log(`${port} 포트에서 서버 열림`))
     }
 });
