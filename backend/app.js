@@ -11,6 +11,13 @@ const models = require('./models');
 const setupMiddleware = require('./conf/middleware');
 const setupRoutes = require('./routes');
 
+app.use((req, res, next) => {
+    const targetHost = `${process.env.HOST}.nip.io`;
+    if (req.hostname === process.env.HOST) {
+        return res.redirect(302, `http://${targetHost}:${process.env.PORT}${req.originalUrl}`);
+    }
+    next();
+});
 app.use(express.static(path.join(__dirname, '..', 'frontend')));
 setupMiddleware(app);
 setupRoutes(app);

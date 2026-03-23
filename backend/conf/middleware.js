@@ -5,13 +5,6 @@ const googleOauth = require('./google-oauth');
 const passport = require('passport');
 
 module.exports = (app) => {
-    app.use((req, res, next) => {
-        const targetHost = `${process.env.HOST}.nip.io`;
-        if (req.hostname === process.env.HOST) {
-            return res.redirect(301, `http://${targetHost}:${process.env.PORT}${req.originalUrl}`);
-        }
-        next();
-    });
     // 1. CORS 설정
     const corsOptions = {
         origin: 'http://127.0.0.1:5500',
