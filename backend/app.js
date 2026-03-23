@@ -2,8 +2,8 @@
 const express = require('express')
 const path = require('path');
 const app = express()
-const port = process.env.PORT
 require('dotenv').config({ path: path.resolve(__dirname, '..', '.env') });
+const port = process.env.PORT
 
 /* DB 연결 */
 const models = require('./models');
