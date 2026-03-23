@@ -28,50 +28,53 @@ const onSilentRefresh = async () => {
 
 onSilentRefresh();
 
-const handleResponse = (response) => {
+async function fetchData(url, method = 'GET', body = null) {
+    const options = {
+        method: method,
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: body ? JSON.stringify(body) : null,
+    };
+
+    const response = await fetch(API_ENDPOINT + url, options);
+    
+    return await handleResponse(response, url, method, body);
+}
+
+const handleResponse = async (response, url, method, body) => {
     if (response.status === 429) {
         window.location.href = '/error/429.html';
         throw new Error('Too many requests'); 
+    }
+
+    if (response.status === 403 || response.status === 401) {
+        try {
+            await onSilentRefresh();
+
+            return await fetchData(url, method, body);
+        } catch (err) {
+            console.error("세션이 만료되었습니다. 다시 로그인해주세요.");
+            throw err;
+        }
     }
     return response;
 };
 
 async function get(url) {
-    const response = await fetch(API_ENDPOINT + url);
-
-    return handleResponse(response);
+    return fetchData(url, 'GET');
 }
 
 async function post(url, obj) {
-    const response = await fetch(API_ENDPOINT + url, {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(obj)
-    });
-
-    return handleResponse(response);
+    return fetchData(url, 'POST', obj);
 }
 
 async function put(url, obj) {
-    const response = await fetch(API_ENDPOINT + url, {
-        method: 'PUT',
-        headers: {
-            'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(obj)
-    });
-    
-    return handleResponse(response);
+    return fetchData(url, 'PUT', obj);
 }
 
 async function del(url) {
-    const response = await fetch(API_ENDPOINT + url, {
-        method: 'DELETE',
-    });
-    
-    return handleResponse(response);
+    return fetchData(url, 'DELETE');
 }
 
 export { get, post, put, del };
