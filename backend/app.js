@@ -11,13 +11,6 @@ const models = require('./models');
 const setupMiddleware = require('./conf/middleware');
 const setupRoutes = require('./routes');
 
-app.use((req, res, next) => {
-    const targetHost = `${process.env.HOST}.nip.io`;
-    if (req.hostname === process.env.HOST) {
-        return res.redirect(302, `http://${targetHost}:${process.env.PORT}${req.originalUrl}`);
-    }
-    next();
-});
 app.use(express.static(path.join(__dirname, '..', 'frontend')));
 setupMiddleware(app);
 setupRoutes(app);
@@ -25,8 +18,7 @@ setupRoutes(app);
 (async () => {
     try {
         await models.initializeDatabase();
-
-        app.listen(port, '0.0.0.0', () => {
+        app.listen(port, process.env.MODE ? '0.0.0.0' : null, () => {
             console.log(`${port} 포트에서 서버 열림`);
         });
 

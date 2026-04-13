@@ -10,7 +10,8 @@ module.exports = async () => {
     passport.use(new GoogleStrategy({
         clientID: process.env.GOOGLE_OAUTH_CLIENT,
         clientSecret: process.env.GOOGLE_OAUTH_SECRET,
-        callbackURL: "/api/auth/google/callback"
+        callbackURL: `${process.env.BASE_URL}/api/auth/google/callback`,
+        proxy: true
     }, async (accessToken, refreshToken, profile, done) => {
             try {
                 const email = profile.emails[0]?.value || profile._json.email;

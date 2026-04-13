@@ -47,6 +47,10 @@ const handleResponse = async (response, url, method, body) => {
         window.location.href = '/error/429.html';
         throw new Error('Too many requests'); 
     }
+    const currentPath = window.location.pathname.replace(/\/$/, "");
+    if (currentPath === '/login' || currentPath === '/signup') {
+        return response;
+    }
 
     if (response.status === 403 || response.status === 401) {
         try {
